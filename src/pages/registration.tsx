@@ -1,37 +1,64 @@
 import { RegistrationFlow } from "@ory/client";
-import { NextPage, NextPageContext } from "next";
-import { FormEventHandler } from "react";
+import { FormEventHandler, useEffect, useState } from "react";
 import ory from "../../pkg/sdk"
 import Error from "next/error";
-import { useRouter } from "next/navigation";
-import axios from "axios";
+import { useRouter } from "next/router";
 
-const RegisterPage = ({
-  flowData,
-}: {
-  flowData: RegistrationFlow;
-}) => {
+const RegisterPage = () => {
   const router = useRouter()
+  const { flow: flowId, return_to: returnTo } = router.query
+  const [flow, setFlow] = useState<RegistrationFlow>()
+
+  useEffect(() => {
+    if (!router.isReady || flow) {
+      return
+    }
+
+    console.log(flowId)
+    if (flowId) {
+      console.log(flowId)
+      ory
+        .getRegistrationFlow({ id: String(flowId) })
+        .then(({ data }) => {
+          setFlow(data)
+        }).catch(({err}) => {
+          console.log(err)
+        })
+    }
+
+    ory
+      .createBrowserRegistrationFlow({
+        returnTo: returnTo ? String(returnTo) : undefined,
+      })
+      .then(({ data }) => {
+        setFlow(data)
+      }).catch(({err}) => {
+        console.log(err)
+      })
+  }, [flowId, router, router.isReady, returnTo, flow])
   
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
+    if(!flow){
+      return (<div>Flow not found</div>)
+    }
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     const email = form.get("traits.email") || "";
     const password = form.get("password") || "";
 
-    const csrf_token = flowData.ui.nodes.find(
+    const csrf_token = flow.ui.nodes.find(
       (node) => (
         node.group === "default" 
         && 'name' in node.attributes 
         && node.attributes.name === "csrf_token"
       ))?.attributes.value || "";
 
-    console.log(flowData)
+    console.log(flow)
 
     ory.
       updateRegistrationFlow(
         {
-          flow: flowData.id,
+          flow: flow.id,
           updateRegistrationFlowBody: {
             "csrf_token": csrf_token,
             traits: {
@@ -54,13 +81,13 @@ const RegisterPage = ({
         }
 
         // If continue_with did not contain anything, we can just return to the home page.
-        await router.push(flowData?.return_to || "/")
+        await router.push(flow?.return_to || "/")
       }).catch((err) => {
         console.log(err)
       });
   };
 
-  if(!flowData) {
+  if(!flow) {
     return <Error statusCode={500}></Error>
   };
   
@@ -91,49 +118,5 @@ const RegisterPage = ({
     </div>
   );
 };
-
-export async function getServerSideProps(context: NextPageContext) {
-  const allCookies = context?.req?.headers.cookie;
-  let flowId = context.query.flow;
-  let data = null;
-
-  if (allCookies && flowId) {
-    console.log(`flow id: ${flowId}`)
-    const data = await ory
-      .getRegistrationFlow(
-        { id: String(flowId), cookie: allCookies },
-      ).then(({ data }) => {
-        return data;
-      }).catch((err) => {
-        console.log(err);
-        return null;
-      });
-    const flowData = data;
-    return {
-      props: {
-        flowData,
-      },
-    };
-  }
-
-  if (!flowId) {
-    console.log("No flow id found, redirecting to registration flow")
-    data = await ory
-      .createBrowserRegistrationFlow({})
-        .then(({ data }) => {
-          return data
-        }).catch((err) => {
-          console.log(err);
-        });
-  }
-
-  console.log(data)
-
-  return {
-    props: {
-      flowData: data,
-    },
-  };
-}
 
 export default RegisterPage;
