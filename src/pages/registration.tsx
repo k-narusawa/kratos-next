@@ -55,7 +55,7 @@ const RegisterPage = () => {
 
     console.log(flow)
 
-    ory.
+    await ory.
       updateRegistrationFlow(
         {
           flow: flow.id,
@@ -79,7 +79,6 @@ const RegisterPage = () => {
             }
           }
         }
-
         // If continue_with did not contain anything, we can just return to the home page.
         await router.push(flow?.return_to || "/")
       }).catch((err) => {

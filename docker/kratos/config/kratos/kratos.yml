@@ -1,0 +1,120 @@
+version: v1.0.0
+
+dsn: memory
+
+serve:
+  public:
+    base_url: http://127.0.0.1:4433/
+    cors:
+      allowed_origins:
+        - http://127.0.0.1:4455
+        - http://localhost:4455
+      allowed_methods:
+        - POST
+        - GET
+        - PUT
+        - PATCH
+        - DELETE
+      allowed_headers:
+        - Authorization
+        - Cookie
+        - Content-Type
+        - X-Session-Token
+      exposed_headers:
+        - Content-Type
+        - Set-Cookie
+      allow_credentials: true
+      options_passthrough: true
+      debug: true
+      enabled: true
+  admin:
+    base_url: http://127.0.0.1:4434/
+    host: "0.0.0.0"
+    port: 4434
+
+selfservice:
+  default_browser_return_url: http://127.0.0.1:4455
+  allowed_return_urls:
+    - http://127.0.0.1:4455
+
+  methods:
+    password:
+      config:
+        # haveibeenpwned_host: api.pwnedpasswords.com # 繋がらないのでコメントアウト
+        haveibeenpwned_enabled: false
+        max_breaches: 0
+        ignore_network_errors: true
+        min_password_length: 8
+        identifier_similarity_check_enabled: true
+      enabled: true
+
+  flows:
+    error:
+      ui_url: http://127.0.0.1:4455/error
+
+    settings:
+      ui_url: http://127.0.0.1:4455/settings
+      privileged_session_max_age: 15m
+
+    recovery:
+      enabled: true
+      ui_url: http://127.0.0.1:4455/recovery
+
+    verification:
+      enabled: false
+      # ui_url: http://127.0.0.1:4455/verification
+      after:
+        default_browser_return_url: http://127.0.0.1:4455/verification
+
+    logout:
+      after:
+        default_browser_return_url: http://127.0.0.1:4455/login
+
+    login:
+      ui_url: http://127.0.0.1:4455/login
+
+    registration:
+      lifespan: 10m
+      ui_url: http://127.0.0.1:4455/registration
+      after:
+        password:
+          hooks:
+            - hook: session
+        oidc:
+          hooks:
+            - hook: session
+
+cookies:
+  domain: 127.0.0.1
+  path: /
+  same_site: Lax
+
+log:
+  level: debug
+  format: text
+  leak_sensitive_values: true
+
+session:
+  lifespan: 24h
+  cookie:
+    domain: http://127.0.0.1:4455
+    same_site: Lax
+
+secrets:
+  cookie:
+    - 8432a217-cc13-4ce9-bd7e-3be15a01cd87
+
+hashers:
+  algorithm: bcrypt
+  bcrypt:
+    cost: 8
+
+identity:
+  default_schema_id: preset://email
+  schemas:
+    - id: preset://email
+      url: file:///etc/config/kratos/identity.schema.json
+
+courier:
+  smtp:
+    connection_uri: smtp://test:test@mailslurper:1025/?skip_ssl_verify=true

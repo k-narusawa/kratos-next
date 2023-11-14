@@ -1,0 +1,75 @@
+version: "3.7"
+
+volumes:
+  postgres-db:
+
+services:
+  mysqld:
+    image: mysql:8.2.0
+    ports:
+      - 3306:3306
+    volumes:
+      - type: bind
+        source: ./docker/mysql/data
+        target: /var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mysql
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+    networks:
+      - intranet
+
+  kratos-migrate:
+    image: oryd/kratos:v1.0.0
+    environment:
+      - DSN=mysql://root:root@tcp(mysqld:3306)/mysql?max_conns=20&max_idle_conns=4
+    volumes:
+      - type: bind
+        source: ./docker/kratos/config/kratos
+        target: /etc/config/kratos
+    command: migrate sql -e --yes
+    depends_on:
+      - mysqld
+    networks:
+      - intranet
+
+  kratos:
+    image: oryd/kratos:v1.0.0
+    depends_on:
+      - kratos-migrate
+      - jaeger
+    environment:
+      - DSN=mysql://root:root@tcp(mysqld:3306)/mysql?max_conns=20&max_idle_conns=4
+      - LOG_LEVEL=trace
+      - TRACING_PROVIDER=jaeger
+      - TRACING_PROVIDERS_JAEGER_SAMPLING_SERVER_URL=http://jaeger:5778/sampling
+      - TRACING_PROVIDERS_JAEGER_LOCAL_AGENT_ADDRESS=jaeger:6831
+    ports:
+      - "4433:4433" # public
+      - "4434:4434" # admin
+    command: serve --dev -c /etc/config/kratos/kratos.yml --watch-courier
+    volumes:
+      - type: bind
+        source: ./docker/kratos/config/kratos
+        target: /etc/config/kratos
+    networks:
+      - intranet
+  
+  # mailslurper:
+  #   image: oryd/mailslurper:latest-smtps
+  #   ports:
+  #     - "4436:4436"
+  #     - "4437:4437"
+  #   networks:
+  #     - intranet
+  jaeger:
+    image: jaegertracing/all-in-one:1.19.2
+    ports:
+      - "16686:16686" # The UI port
+    networks:
+      - intranet
+
+networks:
+  intranet:
+
