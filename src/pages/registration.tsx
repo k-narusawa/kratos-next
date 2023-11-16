@@ -3,6 +3,8 @@ import { FormEventHandler, useEffect, useState } from "react";
 import ory from "../../pkg/sdk"
 import Error from "next/error";
 import { useRouter } from "next/router";
+import TextInput from "@/src/components/TextInput";
+import Button from "@/src/components/Button";
 
 const RegisterPage = () => {
   const router = useRouter()
@@ -92,28 +94,24 @@ const RegisterPage = () => {
   
   return (
     <div>
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <h1>Register</h1>
+        <h1>登録</h1>
         <form onSubmit={handleSubmit}>
-          <input
+          <TextInput
             type="email"
             id="traits.email"
             name="traits.email"
             required
-            placeholder="email"
-          />
-          <input
-            name="password"
+            placeholder="メールアドレス"
+            />
+          <TextInput
             type="password"
             id="password"
+            name="password"
             required
-            placeholder="password"
-          />
-          <button type="submit" name="method" value="password">
-            Register
-          </button>
+            placeholder="パスワード"
+            />
+          <Button type="submit">登録</Button>
         </form>
-      </div>
     </div>
   );
 };
