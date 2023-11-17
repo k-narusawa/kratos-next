@@ -80,20 +80,26 @@ const LoginPage = () => {
     <div>
       <h1>ログイン</h1>
       <form onSubmit={handleSubmit}>
-        <TextInput
-          type="email"
-          id="identifier"
-          name="identifier"
-          required
-          placeholder="メールアドレス"
-        />
-        <TextInput
-          type="password"
-          id="password"
-          name="password"
-          required
-          placeholder="パスワード"
-        />
+        <div className="w-1/2">
+          <TextInput
+            label="メールアドレス"
+            type="email"
+            id="identifier"
+            name="identifier"
+            required
+            placeholder="メールアドレス"
+          />
+        </div>
+        <div className="w-1/2">
+          <TextInput
+            label="パスワード"
+            type="password"
+            id="password"
+            name="password"
+            required
+            placeholder="パスワード"
+          />
+        </div>
         <Button type="submit">ログイン</Button>
       </form>
     </div>
