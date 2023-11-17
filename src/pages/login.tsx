@@ -5,6 +5,8 @@ import Error from "next/error";
 import { useRouter } from "next/router";
 import TextInput from "@/src/components/TextInput";
 import Button from "@/src/components/Button";
+import { getSession } from "@auth0/nextjs-auth0";
+import { AxiosError } from "axios";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -14,12 +16,30 @@ const LoginPage = () => {
   useEffect(() => {
     if (!router.isReady || flow) {
       return;
-    }
+    } 
+
+    ory
+      .toSession()
+      .then(({ data }) => {
+        console.log(data);
+        router.push("/dashboard");
+      })
+      .catch((err: AxiosError) => {
+        switch (err.response?.status) {
+          case 401:
+            // do nothing, the user is not logged in
+            return;
+          default: 
+            console.error(err);
+            break;
+        }
+      });
 
     if (flowId) {
       ory
         .getLoginFlow({ id: String(flowId) })
         .then(({ data }) => {
+          data.active
           setFlow(data);
         }).catch(({ err }) => {
           console.error(err);
