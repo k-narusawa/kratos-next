@@ -5,7 +5,6 @@ import Error from "next/error";
 import { useRouter } from "next/router";
 import TextInput from "@/src/components/TextInput";
 import Button from "@/src/components/Button";
-import { getSession } from "@auth0/nextjs-auth0";
 import { AxiosError } from "axios";
 
 const LoginPage = () => {
@@ -97,10 +96,16 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
-      <h1>ログイン</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="w-1/2">
+    <div className="
+      flex items-center justify-center h-screen 
+      bg-gray-50 dark:bg-gray-900
+    ">
+      <form className="
+        w-full max-w-md p-8 space-y-4 
+        bg-white rounded-lg shadow dark:bg-gray-800
+      " onSubmit={handleSubmit}>
+        <h5 className="text-2xl font-semibold text-center text-gray-900 dark:text-white">ログイン</h5>
+        <div className="mb-2">
           <TextInput
             label="メールアドレス"
             type="email"
@@ -108,9 +113,10 @@ const LoginPage = () => {
             name="identifier"
             required
             placeholder="メールアドレス"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white"
           />
         </div>
-        <div className="w-1/2">
+        <div className="mb-2">
           <TextInput
             label="パスワード"
             type="password"
@@ -118,9 +124,10 @@ const LoginPage = () => {
             name="password"
             required
             placeholder="パスワード"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white"
           />
         </div>
-        <Button type="submit">ログイン</Button>
+        <Button type="submit" className="w-full px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600">ログイン</Button>
       </form>
     </div>
   );
