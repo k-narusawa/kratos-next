@@ -79,8 +79,8 @@ const LoginPage = () => {
         updateLoginFlowBody: {
           "csrf_token": csrf_token,
           "method": "password",
-          identifier: identifier,
-          password: password,
+          identifier: identifier.toString(),
+          password: password.toString(),
         },
       }).then(async ({ data }) => {
         console.log(data);
