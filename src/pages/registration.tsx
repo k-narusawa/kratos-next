@@ -67,7 +67,7 @@ const RegisterPage = () => {
               email: email,
             },
             "method": "password",          
-            password: password,
+            password: password.toString(),
           },
         }).then(async ({ data }) => {
         console.log("This is the user session: ", data, data.identity)
@@ -97,6 +97,7 @@ const RegisterPage = () => {
         <h1>登録</h1>
         <form onSubmit={handleSubmit}>
           <TextInput
+            label="メールアドレス"
             type="email"
             id="traits.email"
             name="traits.email"
@@ -104,6 +105,7 @@ const RegisterPage = () => {
             placeholder="メールアドレス"
             />
           <TextInput
+            label="パスワード"
             type="password"
             id="password"
             name="password"
