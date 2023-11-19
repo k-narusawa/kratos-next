@@ -84,6 +84,7 @@ const LoginPage = () => {
         },
       }).then(async ({ data }) => {
         console.log(data);
+      
         // アクションによってはここで色々やる
         await router.push(flow.return_to || "/dashboard");
       }).catch((err) => {

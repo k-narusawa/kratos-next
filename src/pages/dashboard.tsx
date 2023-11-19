@@ -5,6 +5,7 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { LogoutLink } from "@/src/components/LogoutLink";
 import { Session } from "@ory/client";
+import Button from "@/src/components/Button";
 
 const DashboardPage = () => {
   const [session, setSession] = useState<Session|undefined>(undefined)
@@ -60,6 +61,7 @@ const DashboardPage = () => {
           ))}
         </div>
       </div>
+      <Button onClick={onLogout}>ログアウト</Button>
     </div>
   );
   }
