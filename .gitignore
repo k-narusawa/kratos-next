@@ -35,4 +35,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-docker
+docker/*
+
+!docker/kratos/config/kratos/identity.schema.json
+!docker/kratos/config/kratos/kratos.yml
