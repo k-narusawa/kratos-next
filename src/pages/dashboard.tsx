@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { LogoutLink } from '@/src/components/LogoutLink'
 import { Session } from '@ory/client'
 import Button from '@/src/components/Button'
+import Card from '@/src/components/Card'
 
 const DashboardPage = () => {
   const [session, setSession] = useState<Session | undefined>(undefined)
@@ -44,24 +45,27 @@ const DashboardPage = () => {
   if (session) {
     return (
       <div className='flex flex-col items-center justify-center min-h-screen py-2'>
-        <div className='flex flex-wrap justify-center'>
-          <div className='w-full px-4 py-2 m-2 text-center bg-white rounded-lg shadow-lg'>
-            <h2 className='text-2xl font-bold'>ユーザー情報</h2>
-            <p className='mt-2 text-lg'>Email: {session.identity?.traits.email}</p>
-            <p className='mt-2 text-lg'>ID: {session.identity?.id}</p>
-            <p className='mt-2 text-lg'>認証日時: {session.authenticated_at}</p>
+        <Card>
+          <h5 className='
+            text-2xl font-semibold text-center 
+          text-gray-900 dark:text-white'>
+            アカウント
+          </h5>
+          <div className='items-center flex flex-row'>
+            <p className='mt-2 text-lg ml-4'>{session.identity?.traits.email}</p>
+            <Button className='ml-10' onClick={() => router.push("/")}>
+              変更
+            </Button>
           </div>
-          <div className='w-full px-4 py-2 m-2 text-center bg-white rounded-lg shadow-lg'>
-            <h2 className='text-2xl font-bold'>デバイス情報</h2>
-            {session.devices?.map((device, index) => (
-              <div key={index}>
-                <p className='mt-2 text-lg'>IPアドレス: {device.ip_address}</p>
-                <p className='mt-2 text-lg'>ユーザーエージェント: {device.user_agent}</p>
-              </div>
-            ))}
+          <div className='mt-4'>
+            <Button className='ml-2' onClick={() => router.push("/")}>
+              パスワード変更
+            </Button>
           </div>
+        </Card>
+        <div className='mt-4'>
+          <Button onClick={onLogout} variant='secondary'>ログアウト</Button>
         </div>
-        <Button onClick={onLogout}>ログアウト</Button>
       </div>
     )
   }
