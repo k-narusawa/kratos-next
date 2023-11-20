@@ -1,4 +1,4 @@
-import { Configuration, FrontendApi } from "@ory/client"
+import { Configuration, FrontendApi } from '@ory/client'
 
 const localConfig = {
   apiKey: undefined,
@@ -7,10 +7,8 @@ const localConfig = {
   accessToken: undefined,
   basePath: process.env.NEXT_PUBLIC_KRATOS_PUBLIC_URL,
   baseOptions: { withCredentials: true },
-  formDataCtor: undefined
+  formDataCtor: undefined,
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default new FrontendApi(
-  new Configuration(localConfig),
-)
+export default new FrontendApi(new Configuration(localConfig))

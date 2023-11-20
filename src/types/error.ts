@@ -1,24 +1,24 @@
 export type HttpErrorObject = {
-  name: string;
-  message: string;
-  stack?: string;
+  name: string
+  message: string
+  stack?: string
   http: {
-    url: string;
-    status: number;
-    statusText: string;
-  };
-};
+    url: string
+    status: number
+    statusText: string
+  }
+}
 
 export class HttpError extends Error {
-  url: string;
-  status: number;
-  statusText: string;
+  url: string
+  status: number
+  statusText: string
   constructor(response: Response) {
-    super(response.statusText);
-    this.name = "HttpError";
-    this.status = response.status;
-    this.statusText = response.statusText;
-    this.url = response.url;
+    super(response.statusText)
+    this.name = 'HttpError'
+    this.status = response.status
+    this.statusText = response.statusText
+    this.url = response.url
   }
   serialize(): HttpErrorObject {
     return {
@@ -30,6 +30,6 @@ export class HttpError extends Error {
         statusText: this.statusText,
         url: this.url,
       },
-    };
+    }
   }
 }

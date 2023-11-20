@@ -1,67 +1,65 @@
-import { AxiosError } from "axios"
-import { NextRouter } from "next/router"
-import { Dispatch, SetStateAction } from "react"
-import { toast } from "react-toastify"
+import { AxiosError } from 'axios'
+import { NextRouter } from 'next/router'
+import { Dispatch, SetStateAction } from 'react'
+import { toast } from 'react-toastify'
 
 // A small function to help us deal with errors coming from fetching a flow.
 export function handleGetFlowError<S>(
   router: NextRouter,
-  flowType: "login" | "registration" | "settings" | "recovery" | "verification",
+  flowType: 'login' | 'registration' | 'settings' | 'recovery' | 'verification',
   resetFlow: Dispatch<SetStateAction<S | undefined>>,
 ) {
   return async (err: AxiosError) => {
-    console.log("Error while fetching flow: ", err.response?.data)
+    console.log('Error while fetching flow: ', err.response?.data)
     switch (err.response?.data.error?.id) {
-      case "session_inactive":
-        await router.push("/login?return_to=" + window.location.href)
+      case 'session_inactive':
+        await router.push('/login?return_to=' + window.location.href)
         return
-      case "session_aal2_required":
+      case 'session_aal2_required':
         if (err.response?.data.redirect_browser_to) {
           const redirectTo = new URL(err.response?.data.redirect_browser_to)
-          if (flowType === "settings") {
-            redirectTo.searchParams.set("return_to", window.location.href)
+          if (flowType === 'settings') {
+            redirectTo.searchParams.set('return_to', window.location.href)
           }
           // 2FA is enabled and enforced, but user did not perform 2fa yet!
           window.location.href = redirectTo.toString()
           return
         }
-        await router.push("/login?aal=aal2&return_to=" + window.location.href)
+        await router.push('/login?aal=aal2&return_to=' + window.location.href)
         return
-      case "session_already_available":
+      case 'session_already_available':
         // User is already signed in, let's redirect them home!
-        await router.push("/")
+        await router.push('/')
         return
-      case "session_refresh_required":
+      case 'session_refresh_required':
         // We need to re-authenticate to perform this action
         window.location.href = err.response?.data.redirect_browser_to
         return
-      case "self_service_flow_return_to_forbidden":
+      case 'self_service_flow_return_to_forbidden':
         // The flow expired, let's request a new one.
-        toast.error("The return_to address is not allowed.")
+        toast.error('The return_to address is not allowed.')
         resetFlow(undefined)
-        await router.push("/" + flowType)
+        await router.push('/' + flowType)
         return
-      case "self_service_flow_expired":
+      case 'self_service_flow_expired':
         // The flow expired, let's request a new one.
-        toast.error("Your interaction expired, please fill out the form again.")
+        toast.error('Your interaction expired, please fill out the form again.')
         resetFlow(undefined)
-        await router.push("/" + flowType)
+        await router.push('/' + flowType)
         return
-      case "security_csrf_violation":
+      case 'security_csrf_violation':
         // A CSRF violation occurred. Best to just refresh the flow!
-        console.log("CSRF Violation: ", err.response?.data)
-        toast.error(
-          "A security violation was detected, please fill out the form again.",
-        )
+        console.log('CSRF Violation: ', err.response?.data)
+        toast.error('A security violation was detected, please fill out the form again.')
         resetFlow(undefined)
-        await router.push("/" + flowType)
+        await router.push('/' + flowType)
         return
-      case "security_identity_mismatch":
+      case 'security_identity_mismatch':
         // The requested item was intended for someone else. Let's request a new flow...
         resetFlow(undefined)
-        await router.push("/" + flowType)
+        await router.push('/' + flowType)
         return
-      case "browser_location_change_required":
+      case 'browser_location_change_required':
         // Ory Kratos asked us to point the user to this URL.
         window.location.href = err.response.data.redirect_browser_to
         return
@@ -71,7 +69,7 @@ export function handleGetFlowError<S>(
       case 410:
         // The flow expired, let's request a new one.
         resetFlow(undefined)
-        await router.push("/" + flowType)
+        await router.push('/' + flowType)
         return
     }
 

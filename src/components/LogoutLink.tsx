@@ -1,12 +1,11 @@
-import { AxiosError } from "axios"
-import { useRouter } from "next/router"
-import { useState, useEffect, DependencyList } from "react"
-import ory from "../../pkg/sdk"
+import { AxiosError } from 'axios'
+import { useRouter } from 'next/router'
+import { useState, useEffect, DependencyList } from 'react'
+import ory from '../../pkg/sdk'
 
 export function LogoutLink(deps?: DependencyList) {
-  const [logoutToken, setLogoutToken] = useState<string>("")
+  const [logoutToken, setLogoutToken] = useState<string>('')
   const router = useRouter()
-  
 
   useEffect(() => {
     ory
@@ -30,7 +29,7 @@ export function LogoutLink(deps?: DependencyList) {
     if (logoutToken) {
       ory
         .updateLogoutFlow({ token: logoutToken })
-        .then(() => router.push("/login"))
+        .then(() => router.push('/login'))
         .then(() => router.reload())
     }
   }

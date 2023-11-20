@@ -1,4 +1,4 @@
-version: "3.7"
+version: '3.7'
 
 volumes:
   postgres-db:
@@ -46,8 +46,8 @@ services:
       - TRACING_PROVIDERS_JAEGER_SAMPLING_SERVER_URL=http://jaeger:5778/sampling
       - TRACING_PROVIDERS_JAEGER_LOCAL_AGENT_ADDRESS=jaeger:6831
     ports:
-      - "4433:4433" # public
-      - "4434:4434" # admin
+      - '4433:4433' # public
+      - '4434:4434' # admin
     command: serve --dev -c /etc/config/kratos/kratos.yml --watch-courier
     volumes:
       - type: bind
@@ -55,7 +55,7 @@ services:
         target: /etc/config/kratos
     networks:
       - intranet
-  
+
   # mailslurper:
   #   image: oryd/mailslurper:latest-smtps
   #   ports:
@@ -66,10 +66,9 @@ services:
   jaeger:
     image: jaegertracing/all-in-one:1.51.0
     ports:
-      - "16686:16686" # The UI port
+      - '16686:16686' # The UI port
     networks:
       - intranet
 
 networks:
   intranet:
-
