@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios'
 import { useRouter } from 'next/router'
 import { useState, useEffect, DependencyList } from 'react'
-import ory from '../../pkg/sdk'
+import ory from '../../../pkg/sdk'
 
 export function LogoutLink(deps?: DependencyList) {
   const [logoutToken, setLogoutToken] = useState<string>('')

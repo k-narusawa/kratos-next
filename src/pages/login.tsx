@@ -4,7 +4,7 @@ import ory from '../../pkg/sdk'
 import Error from 'next/error'
 import { useRouter } from 'next/router'
 import { AxiosError } from 'axios'
-import Card from '@/src/components/Card'
+import Card from '@/src/components/ui/Card'
 import LoginForm from '@/src/components/page/LoginForm'
 
 const LoginPage = () => {

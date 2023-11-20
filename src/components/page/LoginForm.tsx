@@ -1,5 +1,5 @@
-import Button from '@/src/components/Button'
-import TextInput from '@/src/components/TextInput'
+import Button from '@/src/components/ui/Button'
+import TextInput from '@/src/components/ui/TextInput'
 import React, { FormEventHandler } from 'react'
 
 interface LoginFormProps {

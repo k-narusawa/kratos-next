@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { AxiosError } from 'axios'
 import { useRouter } from 'next/navigation'
-import { LogoutLink } from '@/src/components/LogoutLink'
+import { LogoutLink } from '@/src/components/ui/LogoutLink'
 import { Session } from '@ory/client'
-import Button from '@/src/components/Button'
-import Card from '@/src/components/Card'
+import Button from '@/src/components/ui/Button'
+import Card from '@/src/components/ui/Card'
 
 const DashboardPage = () => {
   const [session, setSession] = useState<Session | undefined>(undefined)

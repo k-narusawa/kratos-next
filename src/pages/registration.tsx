@@ -3,8 +3,8 @@ import { FormEventHandler, useEffect, useState } from 'react'
 import ory from '../../pkg/sdk'
 import Error from 'next/error'
 import { useRouter } from 'next/router'
-import TextInput from '@/src/components/TextInput'
-import Button from '@/src/components/Button'
+import TextInput from '@/src/components/ui/TextInput'
+import Button from '@/src/components/ui/Button'
 
 const RegisterPage = () => {
   const router = useRouter()
