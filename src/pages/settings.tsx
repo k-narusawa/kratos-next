@@ -40,8 +40,6 @@ const SettingsPage = () => {
             // do nothing, the user is not logged in
             return
         }
-
-        // Something else happened!
         return Promise.reject(err)
       })
     
