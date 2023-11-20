@@ -11,7 +11,6 @@ import DefaultHR from '@/src/components/ui/DefaultHR'
 
 const DashboardPage = () => {
   const [session, setSession] = useState<Session | undefined>(undefined)
-  const [hasSession, setHasSession] = useState<boolean>(false)
 
   const onLogout = LogoutLink()
   const router = useRouter()
@@ -21,23 +20,16 @@ const DashboardPage = () => {
       .toSession()
       .then(({ data }) => {
         setSession(data)
-        setHasSession(true)
       })
       .catch((err: AxiosError) => {
         switch (err.response?.status) {
           case 403:
-          // This is a legacy error code thrown. See code 422 for
-          // more details.
+            return router.push('/error')
           case 422:
-            // This status code is returned when we are trying to
-            // validate a session which has not yet completed
-            // its second factor
             return router.push('/login?aal=aal2')
           case 401:
-            // do nothing, the user is not logged in
-            return
+            return router.push('/login')
         }
-
         // Something else happened!
         return Promise.reject(err)
       })
@@ -84,17 +76,7 @@ const DashboardPage = () => {
     )
   }
 
-  return (
-    <>
-      <Link href='/login' passHref>
-        ログイン
-      </Link>
-      <br />
-      <Link href='/registration' passHref>
-        登録
-      </Link>
-    </>
-  )
+  return null // FIXME: ここどうするか考えなきゃいけない
 }
 
 export default DashboardPage
