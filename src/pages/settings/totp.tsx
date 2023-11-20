@@ -1,4 +1,4 @@
-import ory from '../../pkg/sdk'
+import ory from '../../../pkg/sdk'
 import { FormEventHandler, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { AxiosError } from 'axios'
@@ -10,7 +10,7 @@ interface qr_details {
   totp_qr: string
 }
 
-const SettingsPage = () => {
+const TotpPage = () => {
   const router = useRouter()
   const [session, setSession] = useState<Session | undefined>(undefined)
   const [hasSession, setHasSession] = useState<boolean>(false)
@@ -118,4 +118,4 @@ const SettingsPage = () => {
   )
 }
 
-export default SettingsPage
+export default TotpPage
