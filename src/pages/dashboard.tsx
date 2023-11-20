@@ -1,6 +1,5 @@
 import ory from '../../pkg/sdk'
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
 import { AxiosError } from 'axios'
 import { useRouter } from 'next/navigation'
 import { LogoutLink } from '@/src/components/ui/LogoutLink'
@@ -8,32 +7,22 @@ import { Session } from '@ory/client'
 import Button from '@/src/components/ui/Button'
 import Card from '@/src/components/ui/Card'
 import DefaultHR from '@/src/components/ui/DefaultHR'
+import useSession from '@/src/hooks/useSession'
 
 const DashboardPage = () => {
-  const [session, setSession] = useState<Session | undefined>(undefined)
+  const {session, isLoading, error} = useSession()
 
   const onLogout = LogoutLink()
   const router = useRouter()
 
-  useEffect(() => {
-    ory
-      .toSession()
-      .then(({ data }) => {
-        setSession(data)
-      })
-      .catch((err: AxiosError) => {
-        switch (err.response?.status) {
-          case 403:
-            return router.push('/error')
-          case 422:
-            return router.push('/login?aal=aal2')
-          case 401:
-            return router.push('/login')
-        }
-        // Something else happened!
-        return Promise.reject(err)
-      })
-  }, [router])
+  if(isLoading) return <div>loading...</div>
+
+  if (error) return (
+    <div>
+      <h1>Error</h1>
+      <pre>{JSON.stringify(error, null, 2)}</pre>
+    </div>
+  )
 
   if (session) {
     return (

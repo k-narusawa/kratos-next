@@ -1,3 +1,5 @@
+import { AxiosResponse } from "axios"
+
 export type HttpErrorObject = {
   name: string
   message: string
@@ -13,12 +15,12 @@ export class HttpError extends Error {
   url: string
   status: number
   statusText: string
-  constructor(response: Response) {
+  constructor(response: AxiosResponse) {
     super(response.statusText)
     this.name = 'HttpError'
     this.status = response.status
     this.statusText = response.statusText
-    this.url = response.url
+    this.url = response.data.url
   }
   serialize(): HttpErrorObject {
     return {
