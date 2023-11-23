@@ -1,6 +1,6 @@
 import { LoginFlow, UiNodeAttributes, UiNodeInputAttributes } from '@ory/client'
 import { FormEventHandler, useEffect, useState } from 'react'
-import ory, {oAuth2Api} from '../../pkg/sdk'
+import { ory } from '../../pkg/sdk'
 import { useRouter } from 'next/router'
 import axios, { AxiosError } from 'axios'
 import Card from '@/src/components/ui/Card'
@@ -9,16 +9,16 @@ import { useHandleError } from '@/src/hooks/useHandleError'
 
 const LoginPage = () => {
   const router = useRouter()
-  const { 
-    flow: flowId, 
-    return_to: returnTo, 
+  const {
+    flow: flowId,
+    return_to: returnTo,
     refresh: refresh,
     aal: aal,
     login_challenge: loginChallenge,
   } = router.query
 
   const [flow, setFlow] = useState<LoginFlow>()
-  const handleError = useHandleError();
+  const handleError = useHandleError()
 
   useEffect(() => {
     if (!router.isReady || flow) {
@@ -44,7 +44,7 @@ const LoginPage = () => {
 
     if (flowId) {
       ory
-        .getLoginFlow({ 
+        .getLoginFlow({
           id: String(flowId),
         })
         .then(({ data }) => {
@@ -69,7 +69,7 @@ const LoginPage = () => {
           setFlow(data)
         })
         .catch(({ err }) => {
-          console.error("errror")
+          console.error('errror')
           console.error(err)
         })
     }
@@ -112,15 +112,15 @@ const LoginPage = () => {
       })
       .then(async ({ data }) => {
         console.log(data)
-        if ("redirect_to" in data) {
-          window.location.href = data.redirect_to as string;
-          return;
+        if ('redirect_to' in data) {
+          window.location.href = data.redirect_to as string
+          return
         }
         if (flow?.return_to) {
-          window.location.href = flow.return_to;
-          return;
+          window.location.href = flow.return_to
+          return
         }
-        
+
         await router.push(flow.return_to || '/dashboard')
       })
       .catch((err: AxiosError) => handleError(err))
@@ -139,16 +139,16 @@ const LoginPage = () => {
       </div>
       <div>
         {flow.oauth2_login_challenge && (
-                          <div>
-                              {flow.oauth2_login_request ? (
-                                  <code>
-                                      <pre>{JSON.stringify(flow.oauth2_login_request, undefined, 2)}</pre>
-                                  </code>
-                              ) : (
-                                  <p>No OAuth2 login request data available</p>
-                              )}
-                          </div>
-                      )}
+          <div>
+            {flow.oauth2_login_request ? (
+              <code>
+                <pre>{JSON.stringify(flow.oauth2_login_request, undefined, 2)}</pre>
+              </code>
+            ) : (
+              <p>No OAuth2 login request data available</p>
+            )}
+          </div>
+        )}
       </div>
     </>
   )
@@ -156,9 +156,8 @@ const LoginPage = () => {
 
 export default LoginPage
 
-
 const QueryParams = (path: string): URLSearchParams => {
-  const [, paramString] = path.split("?");
+  const [, paramString] = path.split('?')
   // get new flow data based on the flow id in the redirect url
-  return new URLSearchParams(paramString);
-};
+  return new URLSearchParams(paramString)
+}

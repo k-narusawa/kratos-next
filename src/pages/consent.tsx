@@ -6,4 +6,4 @@ const ConsentPage = () => {
   )
 }
 
-export default ConsentPage;
+export default ConsentPage

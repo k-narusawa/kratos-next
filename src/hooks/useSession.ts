@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import ory from '../../pkg/sdk';
-import { Session } from "@ory/client";
-import { AxiosError } from "axios";
-import { HttpError } from "@/src/types/error";
+import { useEffect, useState } from 'react'
+import { ory } from '../../pkg/sdk'
+import { Session } from '@ory/client'
+import { AxiosError } from 'axios'
+import { HttpError } from '@/src/types/error'
 
 const useSession = () => {
-  const [session, setSession] = useState<Session | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<HttpError|null>(null);
+  const [session, setSession] = useState<Session | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<HttpError | null>(null)
 
   useEffect(() => {
     ory
@@ -21,10 +21,10 @@ const useSession = () => {
         switch (err.response?.status) {
           case 401:
             setSession(null)
-            break;
+            break
           default:
             setError(err.response ? new HttpError(err.response) : null)
-            break;
+            break
         }
         console.error(err)
       })
@@ -33,4 +33,4 @@ const useSession = () => {
   return { session, isLoading, error }
 }
 
-export default useSession;
+export default useSession

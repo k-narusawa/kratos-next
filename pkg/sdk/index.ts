@@ -11,5 +11,5 @@ const localConfig = {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default new FrontendApi(new Configuration(localConfig))
-export const oAuth2Api = new OAuth2Api(new Configuration(localConfig))
+export const ory = new FrontendApi(new Configuration(localConfig))
+export const oauth = new OAuth2Api(new Configuration(localConfig))
