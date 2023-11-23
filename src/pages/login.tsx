@@ -1,16 +1,24 @@
-import { LoginFlow } from '@ory/client'
+import { LoginFlow, UiNodeAttributes, UiNodeInputAttributes } from '@ory/client'
 import { FormEventHandler, useEffect, useState } from 'react'
-import ory from '../../pkg/sdk'
-import Error from 'next/error'
+import ory, {oAuth2Api} from '../../pkg/sdk'
 import { useRouter } from 'next/router'
-import { AxiosError } from 'axios'
+import axios, { AxiosError } from 'axios'
 import Card from '@/src/components/ui/Card'
 import LoginForm from '@/src/components/page/LoginForm'
+import { useHandleError } from '@/src/hooks/useHandleError'
 
 const LoginPage = () => {
   const router = useRouter()
-  const { flow: flowId, return_to: returnTo } = router.query
+  const { 
+    flow: flowId, 
+    return_to: returnTo, 
+    refresh: refresh,
+    aal: aal,
+    login_challenge: loginChallenge,
+  } = router.query
+
   const [flow, setFlow] = useState<LoginFlow>()
+  const handleError = useHandleError();
 
   useEffect(() => {
     if (!router.isReady || flow) {
@@ -36,7 +44,9 @@ const LoginPage = () => {
 
     if (flowId) {
       ory
-        .getLoginFlow({ id: String(flowId) })
+        .getLoginFlow({ 
+          id: String(flowId),
+        })
         .then(({ data }) => {
           data.active
           setFlow(data)
@@ -48,15 +58,22 @@ const LoginPage = () => {
       ory
         .createBrowserLoginFlow({
           returnTo: returnTo ? String(returnTo) : undefined,
+          refresh: refresh ? Boolean(refresh) : undefined,
+          aal: aal ? String(aal) : undefined,
+          loginChallenge: loginChallenge ? String(loginChallenge) : undefined,
         })
         .then(({ data }) => {
+          console.log(data)
+          console.log(data.oauth2_login_challenge)
+          console.log(data.oauth2_login_request)
           setFlow(data)
         })
         .catch(({ err }) => {
+          console.error("errror")
           console.error(err)
         })
     }
-  }, [flowId, router, router.isReady, returnTo, flow])
+  }, [flowId, router, router.isReady, returnTo, flow, refresh, aal, loginChallenge])
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault()
@@ -67,6 +84,13 @@ const LoginPage = () => {
     const form = new FormData(event.currentTarget)
     const identifier = form.get('identifier') || ''
     const password = form.get('password') || ''
+
+    // const csrf_token = flow.ui.nodes
+    //   .map(({ attributes }) => attributes)
+    //   .filter((attrs): attrs is UiNodeInputAttributes =>
+    //     isUiNodeInputAttributes(attrs),
+    //   )
+    //   .find(({ name }) => name === "csrf_token")?.value;
 
     const csrf_token =
       flow.ui.nodes.find(
@@ -88,26 +112,53 @@ const LoginPage = () => {
       })
       .then(async ({ data }) => {
         console.log(data)
-
-        // アクションによってはここで色々やる
+        if ("redirect_to" in data) {
+          window.location.href = data.redirect_to as string;
+          return;
+        }
+        if (flow?.return_to) {
+          window.location.href = flow.return_to;
+          return;
+        }
+        
         await router.push(flow.return_to || '/dashboard')
       })
-      .catch((err) => {
-        console.error(err)
-      })
+      .catch((err: AxiosError) => handleError(err))
   }
 
   if (!flow) {
-    return <Error statusCode={500}></Error>
+    return <div>Loading...</div>
   }
 
   return (
-    <div className='flex items-center justify-center h-screen bg-gray-50 dark:bg-gray-900'>
-      <Card>
-        <LoginForm handleSubmit={handleSubmit} />
-      </Card>
-    </div>
+    <>
+      <div className='flex items-center justify-center h-screen bg-gray-50 dark:bg-gray-900'>
+        <Card>
+          <LoginForm handleSubmit={handleSubmit} />
+        </Card>
+      </div>
+      <div>
+        {flow.oauth2_login_challenge && (
+                          <div>
+                              {flow.oauth2_login_request ? (
+                                  <code>
+                                      <pre>{JSON.stringify(flow.oauth2_login_request, undefined, 2)}</pre>
+                                  </code>
+                              ) : (
+                                  <p>No OAuth2 login request data available</p>
+                              )}
+                          </div>
+                      )}
+      </div>
+    </>
   )
 }
 
 export default LoginPage
+
+
+const QueryParams = (path: string): URLSearchParams => {
+  const [, paramString] = path.split("?");
+  // get new flow data based on the flow id in the redirect url
+  return new URLSearchParams(paramString);
+};

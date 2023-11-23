@@ -1,4 +1,4 @@
-import { Configuration, FrontendApi } from '@ory/client'
+import { Configuration, FrontendApi, OAuth2Api } from '@ory/client'
 
 const localConfig = {
   apiKey: undefined,
@@ -12,3 +12,4 @@ const localConfig = {
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default new FrontendApi(new Configuration(localConfig))
+export const oAuth2Api = new OAuth2Api(new Configuration(localConfig))
