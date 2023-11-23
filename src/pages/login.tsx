@@ -2,7 +2,7 @@ import { LoginFlow, UiNodeAttributes, UiNodeInputAttributes } from '@ory/client'
 import { FormEventHandler, useEffect, useState } from 'react'
 import { ory } from '../../pkg/sdk'
 import { useRouter } from 'next/router'
-import axios, { AxiosError } from 'axios'
+import { AxiosError } from 'axios'
 import Card from '@/src/components/ui/Card'
 import LoginForm from '@/src/components/page/LoginForm'
 import { useHandleError } from '@/src/hooks/useHandleError'
@@ -28,7 +28,6 @@ const LoginPage = () => {
     ory
       .toSession()
       .then(({ data }) => {
-        console.log(data)
         router.push('/dashboard')
       })
       .catch((err: AxiosError) => {
@@ -63,14 +62,10 @@ const LoginPage = () => {
           loginChallenge: loginChallenge ? String(loginChallenge) : undefined,
         })
         .then(({ data }) => {
-          console.log(data)
-          console.log(data.oauth2_login_challenge)
-          console.log(data.oauth2_login_request)
           setFlow(data)
         })
-        .catch(({ err }) => {
-          console.error('errror')
-          console.error(err)
+        .catch(({ data }) => {
+          console.error(data)
         })
     }
   }, [flowId, router, router.isReady, returnTo, flow, refresh, aal, loginChallenge])
@@ -136,19 +131,6 @@ const LoginPage = () => {
         <Card>
           <LoginForm handleSubmit={handleSubmit} />
         </Card>
-      </div>
-      <div>
-        {flow.oauth2_login_challenge && (
-          <div>
-            {flow.oauth2_login_request ? (
-              <code>
-                <pre>{JSON.stringify(flow.oauth2_login_request, undefined, 2)}</pre>
-              </code>
-            ) : (
-              <p>No OAuth2 login request data available</p>
-            )}
-          </div>
-        )}
       </div>
     </>
   )
