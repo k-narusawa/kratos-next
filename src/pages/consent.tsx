@@ -3,9 +3,8 @@ import Button from '@/src/components/ui/Button'
 import { useHandleError } from '@/src/hooks/useHandleError'
 import { OAuth2ConsentRequest } from '@ory/client'
 import { AxiosError } from 'axios'
-import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
-import { use, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const ConsentPage = ({}) => {
   const router = useRouter()
@@ -32,19 +31,41 @@ const ConsentPage = ({}) => {
     }
   }, [consentChallenge, handleError, router])
 
-  const handleAccept = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleAccept = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (!consentRequest) {
       return
+    } else {
+      await oauth
+        .acceptOAuth2ConsentRequest({
+          consentChallenge: consentRequest.challenge.toString(),
+        })
+        .then(({ data }) => {
+          if (data.redirect_to) {
+            router.push(data.redirect_to)
+          }
+        })
+        .catch((err: AxiosError) => handleError(err))
     }
   }
 
-  const handleReject = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleReject = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (!consentRequest) {
       return
+    } else {
+      await oauth
+        .rejectOAuth2ConsentRequest({
+          consentChallenge: consentRequest.challenge.toString(),
+        })
+        .then(({ data }) => {
+          if (data.redirect_to) {
+            router.push(data.redirect_to)
+          }
+        })
+        .catch((err: AxiosError) => handleError(err))
     }
   }
 
