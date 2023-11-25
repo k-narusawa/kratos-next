@@ -6,6 +6,7 @@ import { AxiosError } from 'axios'
 import Card from '@/src/components/ui/Card'
 import LoginForm from '@/src/components/page/LoginForm'
 import { useHandleError } from '@/src/hooks/useHandleError'
+import useFlow from '@/src/hooks/useFlow'
 
 const LoginPage = () => {
   const router = useRouter()
@@ -19,6 +20,7 @@ const LoginPage = () => {
 
   const [flow, setFlow] = useState<LoginFlow>()
   const handleError = useHandleError()
+  const { getCsrfToken } = useFlow()
 
   useEffect(() => {
     if (!router.isReady || flow) {
@@ -80,12 +82,7 @@ const LoginPage = () => {
     const identifier = form.get('identifier') || ''
     const password = form.get('password') || ''
 
-    const csrf_token = flow.ui.nodes
-      .map(({ attributes }) => attributes)
-      .filter((attrs): attrs is UiNodeInputAttributes =>
-        isUiNodeInputAttributes(attrs),
-      )
-      .find(({ name }) => name === "csrf_token")?.value;
+    const csrf_token = getCsrfToken(flow)
 
     await ory
       .updateLoginFlow({
@@ -98,7 +95,6 @@ const LoginPage = () => {
         },
       })
       .then(async ({ data }) => {
-        console.log(data)
         if ('redirect_to' in data) {
           window.location.href = data.redirect_to as string
           return
@@ -134,11 +130,4 @@ const QueryParams = (path: string): URLSearchParams => {
   const [, paramString] = path.split('?')
   // get new flow data based on the flow id in the redirect url
   return new URLSearchParams(paramString)
-}
-
-
-export function isUiNodeInputAttributes(
-  pet: UiNodeAttributes,
-): pet is UiNodeInputAttributes {
-  return (pet as UiNodeInputAttributes).name !== undefined
 }

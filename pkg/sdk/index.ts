@@ -11,12 +11,16 @@ const localConfig = {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export const ory = new FrontendApi(new Configuration({
-  basePath: process.env.NEXT_PUBLIC_KRATOS_PUBLIC_URL,
-  baseOptions: { withCredentials: true },
-}))
+export const ory = new FrontendApi(
+  new Configuration({
+    basePath: process.env.NEXT_PUBLIC_KRATOS_PUBLIC_URL,
+    baseOptions: { withCredentials: true },
+  }),
+)
 
-export const oauth = new OAuth2Api(new Configuration({
-  basePath: "http://127.0.0.1:4445",
-  baseOptions: { withCredentials: true },
-}))
+export const oauth = new OAuth2Api(
+  new Configuration({
+    basePath: 'http://127.0.0.1:4445',
+    baseOptions: { withCredentials: true },
+  }),
+)

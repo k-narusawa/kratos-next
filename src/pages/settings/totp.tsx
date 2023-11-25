@@ -1,9 +1,10 @@
-import ory from '../../../pkg/sdk'
+import { ory } from '../../../pkg/sdk'
 import { FormEventHandler, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { AxiosError } from 'axios'
 import { useRouter } from 'next/navigation'
 import { Session, SettingsFlow } from '@ory/client'
+import useFlow from '@/src/hooks/useFlow'
 
 interface qr_details {
   enabled: boolean
@@ -13,8 +14,8 @@ interface qr_details {
 const TotpPage = () => {
   const router = useRouter()
   const [session, setSession] = useState<Session | undefined>(undefined)
-  const [hasSession, setHasSession] = useState<boolean>(false)
   const [flow, setFlow] = useState<SettingsFlow>()
+  const { getCsrfToken } = useFlow()
 
   const [qr_details, setQrDetails] = useState<qr_details | undefined>(undefined)
 
@@ -23,7 +24,6 @@ const TotpPage = () => {
       .toSession()
       .then(({ data }) => {
         setSession(data)
-        setHasSession(true)
       })
       .catch((err: AxiosError) => {
         switch (err.response?.status) {
@@ -71,13 +71,7 @@ const TotpPage = () => {
       return <div>Flow not found</div>
     }
 
-    const csrf_token =
-      flow.ui.nodes.find(
-        (node) =>
-          node.group === 'default' &&
-          'name' in node.attributes &&
-          node.attributes.name === 'csrf_token',
-      )?.attributes.value || ''
+    const csrf_token = getCsrfToken(flow)
 
     ory.updateSettingsFlow({
       flow: flow.id,

@@ -5,11 +5,13 @@ import Error from 'next/error'
 import { useRouter } from 'next/router'
 import TextInput from '@/src/components/ui/TextInput'
 import Button from '@/src/components/ui/Button'
+import useFlow from '@/src/hooks/useFlow'
 
 const RegisterPage = () => {
   const router = useRouter()
   const { flow: flowId, return_to: returnTo } = router.query
   const [flow, setFlow] = useState<RegistrationFlow>()
+  const {getCsrfToken }= useFlow()
 
   useEffect(() => {
     if (!router.isReady || flow) {
@@ -46,17 +48,12 @@ const RegisterPage = () => {
       return <div>Flow not found</div>
     }
     event.preventDefault()
+    
     const form = new FormData(event.currentTarget)
     const email = form.get('traits.email') || ''
     const password = form.get('password') || ''
 
-    const csrf_token =
-      flow.ui.nodes.find(
-        (node) =>
-          node.group === 'default' &&
-          'name' in node.attributes &&
-          node.attributes.name === 'csrf_token',
-      )?.attributes.value || ''
+    const csrf_token = getCsrfToken(flow)
 
     console.log(flow)
 
