@@ -80,20 +80,12 @@ const LoginPage = () => {
     const identifier = form.get('identifier') || ''
     const password = form.get('password') || ''
 
-    // const csrf_token = flow.ui.nodes
-    //   .map(({ attributes }) => attributes)
-    //   .filter((attrs): attrs is UiNodeInputAttributes =>
-    //     isUiNodeInputAttributes(attrs),
-    //   )
-    //   .find(({ name }) => name === "csrf_token")?.value;
-
-    const csrf_token =
-      flow.ui.nodes.find(
-        (node) =>
-          node.group === 'default' &&
-          'name' in node.attributes &&
-          node.attributes.name === 'csrf_token',
-      )?.attributes.value || ''
+    const csrf_token = flow.ui.nodes
+      .map(({ attributes }) => attributes)
+      .filter((attrs): attrs is UiNodeInputAttributes =>
+        isUiNodeInputAttributes(attrs),
+      )
+      .find(({ name }) => name === "csrf_token")?.value;
 
     await ory
       .updateLoginFlow({
@@ -142,4 +134,11 @@ const QueryParams = (path: string): URLSearchParams => {
   const [, paramString] = path.split('?')
   // get new flow data based on the flow id in the redirect url
   return new URLSearchParams(paramString)
+}
+
+
+export function isUiNodeInputAttributes(
+  pet: UiNodeAttributes,
+): pet is UiNodeInputAttributes {
+  return (pet as UiNodeInputAttributes).name !== undefined
 }
