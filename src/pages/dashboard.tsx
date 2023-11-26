@@ -4,6 +4,7 @@ import Button from '@/src/components/ui/Button'
 import Card from '@/src/components/ui/Card'
 import DefaultHR from '@/src/components/ui/DefaultHR'
 import useSession from '@/src/hooks/useSession'
+import Link from 'next/link'
 
 const DashboardPage = () => {
   const { session, isLoading, error } = useSession()
@@ -23,35 +24,53 @@ const DashboardPage = () => {
 
   if (session) {
     return (
-      <div className='md:flex md:flex-col items-center justify-center min-h-screen py-2'>
+      <div className='flex flex-col items-center justify-center min-h-screen py-2'>
         <Card>
           <h5 className='text-2xl font-semibold text-center text-gray-900 dark:text-white'>
             アカウント
           </h5>
-          <div className='flex flex-col md:flex-row items-center md:justify-between w-full'>
-            <p className='mt-2 text-lg ml-4'>Email: {session.identity?.traits.email}</p>
-            <div className='mt-4 md:mt-0 md:ml-auto'>
-              <Button className='ml-2' onClick={() => router.push('/')}>
-                変更
-              </Button>
+          <div className='flex flex-col w-full'>
+            <div className='flex flex-row mt-2 justify-between'>
+              <p className='ml-4 mr-4'>メールアドレス</p>
+              <Link
+                href='/'
+                className='text-blue-600 dark:text-blue-500 no-underline hover:underline'
+              >
+                変更する
+              </Link>
+            </div>
+            <div className='flex flex-row justify-between'>
+              <p className='mt-2 text-lg ml-4'>{session.identity?.traits.email}</p>
             </div>
           </div>
           <DefaultHR />
-          <div className='flex flex-col md:flex-row items-center md:justify-between w-full'>
-            <p className='mt-2 text-lg ml-4'>Password: ******</p>
-            <div className='mt-4 md:mt-0 md:ml-auto'>
-              <Button className='ml-2' onClick={() => router.push('/')}>
-                変更
-              </Button>
+          <div className='flex flex-col w-full'>
+            <div className='flex flex-row mt-2 justify-between'>
+              <p className='ml-4 mr-4'>パスワード</p>
+              <Link
+                href='/'
+                className='text-blue-600 dark:text-blue-500 no-underline hover:underline'
+              >
+                変更する
+              </Link>
+            </div>
+            <div className='flex flex-row justify-between'>
+              <p className='mt-2 text-lg ml-4'>******</p>
             </div>
           </div>
           <DefaultHR />
-          <div className='flex flex-col md:flex-row items-center md:justify-between w-full'>
-            <p className='mt-2 text-lg ml-4'>MFA: None</p>
-            <div className='mt-4 md:mt-0 md:ml-auto'>
-              <Button className='ml-2' onClick={() => router.push('/settings/totp')}>
-                変更
-              </Button>
+          <div className='flex flex-col w-full'>
+            <div className='flex flex-row mt-2 justify-between'>
+              <p className='ml-4 mr-4'>多要素認証</p>
+              <Link
+                href='/settings/totp'
+                className='text-blue-600 dark:text-blue-500 no-underline hover:underline'
+              >
+                変更する
+              </Link>
+            </div>
+            <div className='flex flex-row justify-between'>
+              <p className='mt-2 text-lg ml-4'>未設定</p>
             </div>
           </div>
         </Card>
