@@ -57,8 +57,6 @@ const RegisterPage = () => {
 
     const csrf_token = getCsrfToken(flow)
 
-    console.log(flow)
-
     await ory
       .updateRegistrationFlow({
         flow: flow.id,
@@ -72,8 +70,6 @@ const RegisterPage = () => {
         },
       })
       .then(async ({ data }) => {
-        console.log('This is the user session: ', data, data.identity)
-
         if (data.continue_with) {
           for (const item of data.continue_with) {
             switch (item.action) {
