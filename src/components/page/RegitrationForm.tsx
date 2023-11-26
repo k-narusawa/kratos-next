@@ -3,17 +3,15 @@ import TextInput from '@/src/components/ui/TextInput'
 import Image from 'next/image'
 import React, { FormEventHandler } from 'react'
 
-interface LoginFormProps {
-  handleLogin: FormEventHandler<HTMLFormElement>
-  handleRegistration: () => void
+interface RegistrationFormProps {
+  handleRegistration: FormEventHandler<HTMLFormElement>
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({
-  handleLogin: handleSubmit,
+const RegistrationForm: React.FC<RegistrationFormProps> = ({
   handleRegistration: handleRegistration,
 }) => {
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleRegistration}>
       <div className='flex justify-center w-full'>
         <Image src='/login_image.png' width={100} height={100} alt='Mythos_Auth' />
       </div>
@@ -24,14 +22,14 @@ const LoginForm: React.FC<LoginFormProps> = ({
           mb-10 mt-5
         '
       >
-        ログイン
+        会員登録
       </h5>
       <div className='mb-2'>
         <TextInput
           label='メールアドレス'
           type='email'
-          id='identifier'
-          name='identifier'
+          id='traits.email'
+          name='traits.email'
           required
           placeholder='メールアドレス'
           className='w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white'
@@ -50,19 +48,11 @@ const LoginForm: React.FC<LoginFormProps> = ({
       </div>
       <div className='flex flex-col items-center'>
         <Button type='submit' className='px-4 py-2 mt-5 w-8/12'>
-          ログイン
-        </Button>
-        <Button
-          type='button'
-          variant='secondary'
-          className='px-4 py-2 mt-10 w-8/12'
-          onClick={handleRegistration}
-        >
-          会員登録
+          登録する
         </Button>
       </div>
     </form>
   )
 }
 
-export default LoginForm
+export default RegistrationForm

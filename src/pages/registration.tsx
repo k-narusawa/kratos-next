@@ -6,6 +6,8 @@ import { useRouter } from 'next/router'
 import TextInput from '@/src/components/ui/TextInput'
 import Button from '@/src/components/ui/Button'
 import useFlow from '@/src/hooks/useFlow'
+import RegistrationForm from '@/src/components/page/RegitrationForm'
+import Card from '@/src/components/ui/Card'
 
 const RegisterPage = () => {
   const router = useRouter()
@@ -43,7 +45,7 @@ const RegisterPage = () => {
       })
   }, [flowId, router, router.isReady, returnTo, flow])
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
+  const handleRegistration: FormEventHandler<HTMLFormElement> = async (event) => {
     if (!flow) {
       return <div>Flow not found</div>
     }
@@ -94,27 +96,10 @@ const RegisterPage = () => {
   }
 
   return (
-    <div>
-      <h1>登録</h1>
-      <form onSubmit={handleSubmit}>
-        <TextInput
-          label='メールアドレス'
-          type='email'
-          id='traits.email'
-          name='traits.email'
-          required
-          placeholder='メールアドレス'
-        />
-        <TextInput
-          label='パスワード'
-          type='password'
-          id='password'
-          name='password'
-          required
-          placeholder='パスワード'
-        />
-        <Button type='submit'>登録</Button>
-      </form>
+    <div className='flex items-center justify-center h-screen bg-gray-50 dark:bg-gray-900'>
+      <Card>
+        <RegistrationForm handleRegistration={handleRegistration} />
+      </Card>
     </div>
   )
 }
