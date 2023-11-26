@@ -13,6 +13,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleSubmit }) => {
         className='
         text-2xl font-semibold text-center 
         text-gray-900 dark:text-white
+        mb-10
       '
       >
         ログイン
@@ -41,9 +42,16 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleSubmit }) => {
       </div>
       <Button
         type='submit'
-        className='w-full px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600'
+        className='w-full px-4 py-2 mt-10'
       >
         ログイン
+      </Button>
+      <Button
+        type='button'
+        variant='secondary'
+        className='w-full px-4 py-2 mt-5'
+      >
+        会員登録
       </Button>
     </form>
   )
