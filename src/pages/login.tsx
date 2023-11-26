@@ -1,4 +1,4 @@
-import { LoginFlow, UiNodeAttributes, UiNodeInputAttributes } from '@ory/client'
+import { LoginFlow } from '@ory/client'
 import { FormEventHandler, useEffect, useState } from 'react'
 import { ory } from '../../pkg/sdk'
 import { useRouter } from 'next/router'
@@ -117,12 +117,9 @@ const LoginPage = () => {
   return (
     <>
       <div className='flex items-center justify-center h-screen bg-gray-50 dark:bg-gray-900'>
-        <Card>
-          <LoginForm
-            handleLogin={handleSubmit}
-            handleRegistration={() => router.push('/registration')}
-          />
-        </Card>
+        <LoginForm
+          handleLogin={handleSubmit}
+        />
       </div>
     </>
   )

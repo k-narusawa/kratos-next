@@ -91,9 +91,7 @@ const RegisterPage = () => {
 
   return (
     <div className='flex items-center justify-center h-screen bg-gray-50 dark:bg-gray-900'>
-      <Card>
-        <RegistrationForm handleRegistration={handleRegistration} />
-      </Card>
+      <RegistrationForm handleRegistration={handleRegistration} />
     </div>
   )
 }
