@@ -28,15 +28,9 @@ const TotpPage = () => {
       .catch((err: AxiosError) => {
         switch (err.response?.status) {
           case 403:
-          // This is a legacy error code thrown. See code 422 for
-          // more details.
           case 422:
-            // This status code is returned when we are trying to
-            // validate a session which has not yet completed
-            // its second factor
             return router.push('/login?aal=aal2')
           case 401:
-            // do nothing, the user is not logged in
             return
         }
         return Promise.reject(err)
@@ -45,14 +39,10 @@ const TotpPage = () => {
     ory
       .createBrowserSettingsFlow()
       .then(({ data }) => {
-        console.log(data)
         data.ui.nodes
           .filter((node) => node.group === 'totp')
           .forEach((node) => {
-            console.log(node.attributes)
             if (node.attributes.id === 'totp_qr') {
-              console.log(node.attributes.value)
-              console.log(node.attributes)
               setQrDetails({
                 enabled: false,
                 totp_qr: node.attributes.src,
