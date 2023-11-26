@@ -1,4 +1,5 @@
 import Button from '@/src/components/ui/Button'
+import DefaultHR from '@/src/components/ui/DefaultHR'
 import TextInput from '@/src/components/ui/TextInput'
 import Image from 'next/image'
 import React, { FormEventHandler } from 'react'
@@ -47,7 +48,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleSubmit }) => {
       <div className='flex flex-col items-center'>
         <Button
           type='submit'
-          className='px-4 py-2 mt-10 w-8/12'
+          className='px-4 py-2 mt-5 w-8/12'
         >
           ログイン
         </Button>
