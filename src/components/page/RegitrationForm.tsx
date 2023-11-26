@@ -24,7 +24,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
       >
         会員登録
       </h5>
-      <div className='mb-2'>
+      <div className='mb-5'>
         <TextInput
           label='メールアドレス'
           type='email'
