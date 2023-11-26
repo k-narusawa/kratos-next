@@ -60,6 +60,12 @@ const TotpPage = () => {
         totp_code: totpCode.toString(),
       },
     })
+    .then(({ data }) => {
+      console.log(data)
+    })
+    .catch(({ err }) => {
+      console.log(err)
+    })
   }
 
   if (qr_details) {
