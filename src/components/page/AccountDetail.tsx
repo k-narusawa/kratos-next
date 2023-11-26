@@ -34,12 +34,20 @@ const AccountDetail: React.FC<AccountDetailProps> = ({
           {emailVerified ? (
             <div className='flex flex-row mt-1 ml-4 mr-4'>
               <VerifiedIcon className='text-emerald-700' />
-              <p className=' ml-1 text-emerald-700'>未認証</p>
+              <p className=' ml-1 text-emerald-700'>認証済</p>
             </div>
           ) : (
-            <div className='flex flex-row mt-1 ml-4 mr-4'>
-              <BrowserNotSupportedIcon className='text-red-500' />
-              <p className=' ml-1 text-red-500'>未認証</p>
+            <div className='flex flex-row justify-between'>
+              <div className='flex flex-row mt-1 ml-4 mr-4'>
+                <BrowserNotSupportedIcon className='text-red-500' />
+                <p className=' ml-1 text-red-500'>未認証</p>
+              </div>
+              <a
+                onClick={() => {console.log('再送する')}}
+                className='cursor-pointer text-blue-600 dark:text-blue-500 no-underline hover:underline'
+              >
+                再送する
+              </a>
             </div>
           )}
           <div className='flex flex-row justify-between'>
