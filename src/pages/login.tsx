@@ -117,7 +117,7 @@ const LoginPage = () => {
     <>
       <div className='flex items-center justify-center h-screen bg-gray-50 dark:bg-gray-900'>
         <Card>
-          <LoginForm handleSubmit={handleSubmit} />
+          <LoginForm handleLogin={handleSubmit} handleRegistration={ () => router.push("/registration")}/>
         </Card>
       </div>
     </>
