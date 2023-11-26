@@ -11,8 +11,8 @@ const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   ...props
 }) => {
-  const primaryStyle = 'bg-blue-500 hover:bg-blue-700 text-white focus:ring-blue-500'
-  const secondaryStyle = 'bg-gray-500 hover:bg-gray-700 text-white focus:ring-gray-500'
+  const primaryStyle = 'bg-blue-500 hover:bg-blue-600 text-white focus:ring-blue-500'
+  const secondaryStyle = 'hover:bg-blue-100 text-blue-500 focus:ring-blue-100'
 
   const baseClass = `py-2 px-4 focus:outline-none focus:ring-2 focus:ring-offset-2 rounded ${
     variant === 'primary' ? primaryStyle : secondaryStyle
