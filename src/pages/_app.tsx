@@ -6,7 +6,9 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Header />
-      <Component {...pageProps} />
+      <div className='bg-gray-50 dark:bg-gray-900'>
+        <Component {...pageProps} />
+      </div>
     </>
   )
 }
