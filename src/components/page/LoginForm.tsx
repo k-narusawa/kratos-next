@@ -15,7 +15,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   return (
     <form onSubmit={handleSubmit}>
       <div className='flex justify-center w-full'>
-        <Image src='/login_image.png' width={100} height={100} alt='Mythos_Auth' />
+        <Image src='/logo.svg' width={100} height={100} alt='Mythos_Auth' />
       </div>
       <h5
         className='
