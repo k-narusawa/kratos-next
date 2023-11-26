@@ -1,10 +1,13 @@
 import { ory } from '../../../pkg/sdk'
 import { FormEventHandler, useEffect, useState } from 'react'
-import Link from 'next/link'
-import { AxiosError } from 'axios'
 import { useRouter } from 'next/navigation'
-import { Session, SettingsFlow } from '@ory/client'
+import { SettingsFlow } from '@ory/client'
 import useFlow from '@/src/hooks/useFlow'
+import useSession from '@/src/hooks/useSession'
+import Card from '@/src/components/ui/Card'
+import Button from '@/src/components/ui/Button'
+import TextInput from '@/src/components/ui/TextInput'
+import Image from 'next/image'
 
 interface qr_details {
   enabled: boolean
@@ -13,29 +16,13 @@ interface qr_details {
 
 const TotpPage = () => {
   const router = useRouter()
-  const [session, setSession] = useState<Session | undefined>(undefined)
+  const { session } = useSession()
   const [flow, setFlow] = useState<SettingsFlow>()
   const { getCsrfToken } = useFlow()
 
   const [qr_details, setQrDetails] = useState<qr_details | undefined>(undefined)
 
   useEffect(() => {
-    ory
-      .toSession()
-      .then(({ data }) => {
-        setSession(data)
-      })
-      .catch((err: AxiosError) => {
-        switch (err.response?.status) {
-          case 403:
-          case 422:
-            return router.push('/login?aal=aal2')
-          case 401:
-            return
-        }
-        return Promise.reject(err)
-      })
-
     ory
       .createBrowserSettingsFlow()
       .then(({ data }) => {
@@ -61,6 +48,8 @@ const TotpPage = () => {
       return <div>Flow not found</div>
     }
 
+    const form = new FormData(event.currentTarget)
+    const totpCode = form.get('totp_code') || ''
     const csrf_token = getCsrfToken(flow)
 
     ory.updateSettingsFlow({
@@ -68,38 +57,46 @@ const TotpPage = () => {
       updateSettingsFlowBody: {
         csrf_token: csrf_token,
         method: 'totp',
-        totp_code: '123456',
+        totp_code: totpCode.toString(),
       },
     })
   }
 
-  if (session && qr_details) {
+  if (qr_details) {
     return (
-      <>
-        <img src={qr_details.totp_qr} />
-        <form onSubmit={handleSubmit}>
-          <input type='text' name='totp_code' />
-          <button type='submit'>Submit</button>
-        </form>
-      </>
+      <div className='flex flex-col items-center justify-center min-h-screen py-2'>
+        <Card>
+          <h5 className='text-2xl font-semibold text-center text-gray-900 dark:text-white'>
+            多要素認証
+          </h5>
+          <div className='flex flex-col items-center justify-center w-full'>
+            <Image
+              src={qr_details.totp_qr}
+              width={200}
+              height={200}
+              alt='QR'
+              className='mx-auto mb-10'
+            />
+            <form onSubmit={handleSubmit}>
+              <TextInput
+                id='totp_code'
+                type='text'
+                name='totp_code'
+                label='認証コード'
+                placeholder='認証コード'
+                className='w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white'
+              />
+              <div className='flex flex-col items-center'>
+                <Button type='submit' className='mb-10 mt-5 justify-center'>
+                  設定
+                </Button>
+              </div>
+            </form>
+          </div>
+        </Card>
+      </div>
     )
   }
-
-  if (session) {
-    return <>テスト</>
-  }
-
-  return (
-    <>
-      <Link href='/login' passHref>
-        ログイン
-      </Link>
-      <br />
-      <Link href='/registration' passHref>
-        登録
-      </Link>
-    </>
-  )
 }
 
 export default TotpPage

@@ -27,22 +27,6 @@ const LoginPage = () => {
       return
     }
 
-    ory
-      .toSession()
-      .then(({ data }) => {
-        router.push('/dashboard')
-      })
-      .catch((err: AxiosError) => {
-        switch (err.response?.status) {
-          case 401:
-            // do nothing, the user is not logged in
-            return
-          default:
-            console.error(err)
-            break
-        }
-      })
-
     if (flowId) {
       ory
         .getLoginFlow({
