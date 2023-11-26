@@ -38,7 +38,7 @@ const AccountDetail: React.FC<AccountDetailProps> = ({
           <div className='flex flex-row mt-2 justify-between'>
             <p className='ml-4 mr-4'>パスワード</p>
             <Link
-              href='/'
+              href='/settings/password'
               className='text-blue-600 dark:text-blue-500 no-underline hover:underline'
             >
               変更する

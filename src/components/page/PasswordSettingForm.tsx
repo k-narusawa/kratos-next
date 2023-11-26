@@ -2,22 +2,18 @@ import Button from '@/src/components/ui/Button'
 import Card from '@/src/components/ui/Card'
 import TextInput from '@/src/components/ui/TextInput'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 import React, { FormEventHandler } from 'react'
 
-interface LoginFormProps {
-  handleLogin: FormEventHandler<HTMLFormElement>
+interface PasswordSettingFormProps {
+  handleChangePassword: FormEventHandler<HTMLFormElement>
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ handleLogin: handleSubmit }) => {
-  const router = useRouter()
-
+const PasswordSettingForm: React.FC<PasswordSettingFormProps> = ({
+  handleChangePassword,
+}) => {
   return (
     <Card>
-      <form onSubmit={handleSubmit}>
-        <div className='flex justify-center w-full'>
-          <Image src='/logo.svg' width={100} height={100} alt='Mythos_Auth' />
-        </div>
+      <form onSubmit={handleChangePassword}>
         <h5
           className='
             text-2xl font-semibold text-center 
@@ -25,39 +21,33 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleLogin: handleSubmit }) => {
             mb-10 mt-5
           '
         >
-          ログイン
+          パスワード変更
         </h5>
         <div className='mb-5'>
-          <TextInput
-            label='メールアドレス'
-            type='email'
-            id='identifier'
-            name='identifier'
-            required
-            className='w-full mb-10 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white'
-          />
-        </div>
-        <div className='mb-2'>
           <TextInput
             label='パスワード'
             type='password'
             id='password'
             name='password'
             required
+            placeholder='パスワード'
+            className='w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white'
+          />
+        </div>
+        <div className='mb-2'>
+          <TextInput
+            label='パスワード(確認用)'
+            type='password'
+            id='password'
+            name='password'
+            required
+            placeholder='パスワード(確認用)'
             className='w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white'
           />
         </div>
         <div className='flex flex-col items-center'>
           <Button type='submit' className='px-4 py-2 mt-5 w-8/12'>
-            ログイン
-          </Button>
-          <Button
-            type='button'
-            variant='secondary'
-            className='px-4 py-2 mt-10 w-8/12'
-            onClick={() => router.push('/registration')}
-          >
-            会員登録
+            変更
           </Button>
         </div>
       </form>
@@ -65,4 +55,4 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleLogin: handleSubmit }) => {
   )
 }
 
-export default LoginForm
+export default PasswordSettingForm

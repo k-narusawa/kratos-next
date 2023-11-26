@@ -16,6 +16,7 @@ export const useHandleError = () => {
       }
 
       // handle specific error ids here
+      console.log(error.response.data)
       switch ((error.response.data as any).error.id) {
         case 'session_aal2_required':
           router.push({

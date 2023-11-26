@@ -3,7 +3,6 @@ import { FormEventHandler, useEffect, useState } from 'react'
 import { ory } from '../../pkg/sdk'
 import { useRouter } from 'next/router'
 import { AxiosError } from 'axios'
-import Card from '@/src/components/ui/Card'
 import LoginForm from '@/src/components/page/LoginForm'
 import { useHandleError } from '@/src/hooks/useHandleError'
 import useFlow from '@/src/hooks/useFlow'
@@ -117,9 +116,7 @@ const LoginPage = () => {
   return (
     <>
       <div className='flex items-center justify-center h-screen'>
-        <LoginForm
-          handleLogin={handleSubmit}
-        />
+        <LoginForm handleLogin={handleSubmit} />
       </div>
     </>
   )

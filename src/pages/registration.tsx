@@ -5,7 +5,6 @@ import Error from 'next/error'
 import { useRouter } from 'next/router'
 import useFlow from '@/src/hooks/useFlow'
 import RegistrationForm from '@/src/components/page/RegitrationForm'
-import Card from '@/src/components/ui/Card'
 
 const RegisterPage = () => {
   const router = useRouter()
