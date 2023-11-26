@@ -7,6 +7,7 @@ import Card from '@/src/components/ui/Card'
 import LoginForm from '@/src/components/page/LoginForm'
 import { useHandleError } from '@/src/hooks/useHandleError'
 import useFlow from '@/src/hooks/useFlow'
+import Spinner from '@/src/components/ui/Spinner'
 
 const LoginPage = () => {
   const router = useRouter()
@@ -110,7 +111,7 @@ const LoginPage = () => {
   }
 
   if (!flow) {
-    return <div>Loading...</div>
+    return <Spinner />
   }
 
   return (

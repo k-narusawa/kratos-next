@@ -5,14 +5,14 @@ import Card from '@/src/components/ui/Card'
 import DefaultHR from '@/src/components/ui/DefaultHR'
 import useSession from '@/src/hooks/useSession'
 import Link from 'next/link'
+import Spinner from '@/src/components/ui/Spinner'
 
 const DashboardPage = () => {
   const { session, isLoading, error } = useSession()
 
   const onLogout = LogoutLink()
-  const router = useRouter()
 
-  if (isLoading) return <div>loading...</div>
+  if (isLoading) return <Spinner />
 
   if (error)
     return (
