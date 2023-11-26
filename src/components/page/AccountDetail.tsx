@@ -1,6 +1,8 @@
 import Card from '@/src/components/ui/Card'
 import DefaultHR from '@/src/components/ui/DefaultHR'
 import Link from 'next/link'
+import VerifiedIcon from '@mui/icons-material/Verified'
+import BrowserNotSupportedIcon from '@mui/icons-material/BrowserNotSupported'
 
 interface AccountDetailProps {
   email: string
@@ -29,6 +31,17 @@ const AccountDetail: React.FC<AccountDetailProps> = ({
               変更する
             </Link>
           </div>
+          {emailVerified ? (
+            <div className='flex flex-row mt-1 ml-4 mr-4'>
+              <VerifiedIcon className='text-emerald-700' />
+              <p className=' ml-1 text-emerald-700'>未認証</p>
+            </div>
+          ) : (
+            <div className='flex flex-row mt-1 ml-4 mr-4'>
+              <BrowserNotSupportedIcon className='text-red-500' />
+              <p className=' ml-1 text-red-500'>未認証</p>
+            </div>
+          )}
           <div className='flex flex-row justify-between'>
             <p className='mt-2 text-lg ml-4'>{email}</p>
           </div>

@@ -52,20 +52,21 @@ const TotpPage = () => {
     const totpCode = form.get('totp_code') || ''
     const csrf_token = getCsrfToken(flow)
 
-    ory.updateSettingsFlow({
-      flow: flow.id,
-      updateSettingsFlowBody: {
-        csrf_token: csrf_token,
-        method: 'totp',
-        totp_code: totpCode.toString(),
-      },
-    })
-    .then(({ data }) => {
-      console.log(data)
-    })
-    .catch(({ err }) => {
-      console.log(err)
-    })
+    ory
+      .updateSettingsFlow({
+        flow: flow.id,
+        updateSettingsFlowBody: {
+          csrf_token: csrf_token,
+          method: 'totp',
+          totp_code: totpCode.toString(),
+        },
+      })
+      .then(({ data }) => {
+        console.log(data)
+      })
+      .catch(({ err }) => {
+        console.log(err)
+      })
   }
 
   if (qr_details) {
