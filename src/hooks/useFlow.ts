@@ -21,7 +21,14 @@ const useFlow = () => {
     return (pet as UiNodeInputAttributes).name !== undefined
   }
 
-  return { getCsrfToken }
+  const getLoginMethod = (flow: Flow) => {
+    return flow.ui.nodes
+      .map(({ attributes }) => attributes)
+      .filter((attrs): attrs is UiNodeInputAttributes => isUiNodeInputAttributes(attrs))
+      .find(({ name }) => name === 'method')?.value
+  }
+
+  return { getCsrfToken, getLoginMethod }
 }
 
 export default useFlow

@@ -7,7 +7,7 @@ export const useHandleError = () => {
 
   return useCallback(
     (error: AxiosError): Promise<AxiosError | void> => {
-      console.debug(`response: ${JSON.stringify(error.response)}`)
+      console.log(`response: ${JSON.stringify(error.response)}`)
       if (!error.response || error.response?.status === 0) {
         window.location.href = `/error?error=${encodeURIComponent(
           JSON.stringify(error.response),
@@ -19,6 +19,7 @@ export const useHandleError = () => {
       console.log(error.response.data)
       switch ((error.response.data as any).error.id) {
         case 'session_aal2_required':
+          console.log('redirecting to login with aal2')
           router.push({
             pathname: '/login',
             query: {
@@ -46,6 +47,9 @@ export const useHandleError = () => {
           // the flow expired, so just reload the page without the flow id
           router.push(router.pathname)
           return Promise.resolve()
+        default:
+          console.log('unhandled error')
+          break
       }
 
       switch (error.response?.status) {
@@ -79,6 +83,9 @@ export const useHandleError = () => {
           return Promise.resolve(router.reload())
       }
     },
-    [router],
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // FIXME: ここにrouterを入れると無限ループになるので、とりあえず空にしておく
+    [],
   )
 }

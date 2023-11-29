@@ -26,6 +26,7 @@ const TotpPage = () => {
     ory
       .createBrowserSettingsFlow()
       .then(({ data }) => {
+        setFlow(data)
         data.ui.nodes
           .filter((node) => node.group === 'totp')
           .forEach((node) => {
@@ -43,6 +44,7 @@ const TotpPage = () => {
   }, [router])
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
+    console.log('submit')
     event.preventDefault()
     if (!flow) {
       return <div>Flow not found</div>
@@ -52,7 +54,9 @@ const TotpPage = () => {
     const totpCode = form.get('totp_code') || ''
     const csrf_token = getCsrfToken(flow)
 
-    ory
+    console.log(totpCode)
+
+    await ory
       .updateSettingsFlow({
         flow: flow.id,
         updateSettingsFlowBody: {
@@ -73,33 +77,33 @@ const TotpPage = () => {
     return (
       <div className='flex flex-col items-center justify-center min-h-screen py-2'>
         <Card>
-          <h5 className='text-2xl font-semibold text-center text-gray-900 dark:text-white'>
-            多要素認証
-          </h5>
-          <div className='flex flex-col items-center justify-center w-full'>
-            <Image
-              src={qr_details.totp_qr}
-              width={200}
-              height={200}
-              alt='QR'
-              className='mx-auto mb-10'
-            />
-            <form onSubmit={handleSubmit}>
-              <TextInput
-                id='totp_code'
-                type='text'
-                name='totp_code'
-                label='認証コード'
-                placeholder='認証コード'
-                className='w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white'
+          <form onSubmit={handleSubmit}>
+            <h5 className='text-2xl font-semibold text-center text-gray-900 dark:text-white'>
+              多要素認証
+            </h5>
+            <div className='flex flex-col items-center justify-center w-full'>
+              <Image
+                src={qr_details.totp_qr}
+                width={200}
+                height={200}
+                alt='QR'
+                className='mx-auto mb-10'
               />
-              <div className='flex flex-col items-center'>
-                <Button type='submit' className='mb-10 mt-5 justify-center'>
-                  設定
-                </Button>
-              </div>
-            </form>
-          </div>
+                <TextInput
+                  id='totp_code'
+                  type='text'
+                  name='totp_code'
+                  label='認証コード'
+                  placeholder='認証コード'
+                  className='w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white'
+                />
+                <div className='flex flex-col items-center'>
+                  <Button type='submit' className='mb-10 mt-5 justify-center'>
+                    設定
+                  </Button>
+                </div>
+            </div>
+          </form>
         </Card>
       </div>
     )

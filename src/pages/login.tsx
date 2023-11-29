@@ -7,6 +7,7 @@ import LoginForm from '@/src/components/page/LoginForm'
 import { useHandleError } from '@/src/hooks/useHandleError'
 import useFlow from '@/src/hooks/useFlow'
 import Spinner from '@/src/components/ui/Spinner'
+import TotpForm from '@/src/components/page/TotpForm'
 
 const LoginPage = () => {
   const router = useRouter()
@@ -20,7 +21,7 @@ const LoginPage = () => {
 
   const [flow, setFlow] = useState<LoginFlow>()
   const handleError = useHandleError()
-  const { getCsrfToken } = useFlow()
+  const { getCsrfToken, getLoginMethod } = useFlow()
 
   useEffect(() => {
     if (!router.isReady || flow) {
@@ -33,7 +34,7 @@ const LoginPage = () => {
           id: String(flowId),
         })
         .then(({ data }) => {
-          data.active
+          console.log(data)
           setFlow(data)
         })
         .catch(({ err }) => {
@@ -48,9 +49,11 @@ const LoginPage = () => {
           loginChallenge: loginChallenge ? String(loginChallenge) : undefined,
         })
         .then(({ data }) => {
+          console.log(data)
           setFlow(data)
         })
         .catch(({ data }) => {
+          console.log(data)
           console.error(data)
         })
     }
@@ -79,6 +82,42 @@ const LoginPage = () => {
         },
       })
       .then(async ({ data }) => {
+        console.log(data)
+        if ('redirect_to' in data) {
+          window.location.href = data.redirect_to as string
+          return
+        }
+        if (flow?.return_to) {
+          window.location.href = flow.return_to
+          return
+        }
+
+        await router.push(flow.return_to || '/dashboard')
+      })
+      .catch((err: AxiosError) => handleError(err))
+  }
+
+  const handleTotpSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
+    event.preventDefault()
+    if (!flow) {
+      return <div>Flow not found</div>
+    }
+
+    const form = new FormData(event.currentTarget)
+    const totpCode = form.get('totp_code') || ''
+
+    const csrf_token = getCsrfToken(flow)
+
+    await ory
+      .updateLoginFlow({
+        flow: flow.id,
+        updateLoginFlowBody: {
+          csrf_token: csrf_token,
+          method: 'totp',
+          totp_code: totpCode.toString(),
+        },
+      })
+      .then(async ({ data }) => {
         if ('redirect_to' in data) {
           window.location.href = data.redirect_to as string
           return
@@ -97,13 +136,25 @@ const LoginPage = () => {
     return <Spinner />
   }
 
-  return (
-    <>
-      <div className='flex items-center justify-center h-screen'>
-        <LoginForm handleLogin={handleSubmit} />
-      </div>
-    </>
-  )
+  if(getLoginMethod(flow) === 'password') {
+    return (
+      <>
+        <div className='flex items-center justify-center h-screen'>
+          <LoginForm handleLogin={handleSubmit} />
+        </div>
+      </>
+    )
+  }
+
+  if(getLoginMethod(flow) === 'totp') {
+    return (
+      <>
+        <div className='flex items-center justify-center h-screen'>
+          <TotpForm handleLogin={handleTotpSubmit} />
+        </div>
+      </>
+    )
+  }
 }
 
 export default LoginPage
