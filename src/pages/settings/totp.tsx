@@ -44,7 +44,6 @@ const TotpPage = () => {
   }, [router])
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
-    console.log('submit')
     event.preventDefault()
     if (!flow) {
       return <div>Flow not found</div>
@@ -53,8 +52,6 @@ const TotpPage = () => {
     const form = new FormData(event.currentTarget)
     const totpCode = form.get('totp_code') || ''
     const csrf_token = getCsrfToken(flow)
-
-    console.log(totpCode)
 
     await ory
       .updateSettingsFlow({

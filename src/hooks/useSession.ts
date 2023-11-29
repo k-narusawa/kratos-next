@@ -19,15 +19,12 @@ const useSession = () => {
         setSession(data)
       })
       .catch((err: AxiosError) => {
-        console.log(err)
         setIsLoading(false)
         switch (err.response?.status) {
           case 401:
-            console.log(err)
             setSession(null)
             break
           default:
-            console.log(err)
             setSession(null)
             setError(err.response ? new HttpError(err.response) : null)
             handleError(err)

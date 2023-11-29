@@ -34,7 +34,6 @@ const LoginPage = () => {
           id: String(flowId),
         })
         .then(({ data }) => {
-          console.log(data)
           setFlow(data)
         })
         .catch(({ err }) => {
@@ -49,11 +48,9 @@ const LoginPage = () => {
           loginChallenge: loginChallenge ? String(loginChallenge) : undefined,
         })
         .then(({ data }) => {
-          console.log(data)
           setFlow(data)
         })
         .catch(({ data }) => {
-          console.log(data)
           console.error(data)
         })
     }
@@ -82,7 +79,6 @@ const LoginPage = () => {
         },
       })
       .then(async ({ data }) => {
-        console.log(data)
         if ('redirect_to' in data) {
           window.location.href = data.redirect_to as string
           return
