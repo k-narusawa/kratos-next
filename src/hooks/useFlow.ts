@@ -28,7 +28,11 @@ const useFlow = () => {
       .find(({ name }) => name === 'method')?.value
   }
 
-  return { getCsrfToken, getLoginMethod }
+  const getMessages = (flow: Flow) => {
+    return flow.ui.messages
+  }
+
+  return { getCsrfToken, getLoginMethod, getMessages }
 }
 
 export default useFlow

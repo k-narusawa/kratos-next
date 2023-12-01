@@ -1,4 +1,4 @@
-import { LoginFlow } from '@ory/client'
+import { LoginFlow, UiText } from '@ory/client'
 import { FormEventHandler, useEffect, useState } from 'react'
 import { ory } from '../../pkg/sdk'
 import { useRouter } from 'next/router'
@@ -20,8 +20,9 @@ const LoginPage = () => {
   } = router.query
 
   const [flow, setFlow] = useState<LoginFlow>()
+  const [errorMessages, setErrorMessages] = useState<UiText[]>([])
   const handleError = useHandleError()
-  const { getCsrfToken, getLoginMethod } = useFlow()
+  const { getCsrfToken, getLoginMethod, getMessages } = useFlow()
 
   useEffect(() => {
     if (!router.isReady || flow) {
@@ -90,6 +91,15 @@ const LoginPage = () => {
 
         await router.push(flow.return_to || '/dashboard')
       })
+      .catch((err: AxiosError) => {
+        console.log(err)
+        try{
+          const messages = getMessages(err.response!.data as LoginFlow)
+          setErrorMessages(messages!)
+        } catch (e) {
+          throw e
+        }
+      })
       .catch((err: AxiosError) => handleError(err))
   }
 
@@ -136,7 +146,7 @@ const LoginPage = () => {
     return (
       <>
         <div className='flex items-center justify-center h-screen'>
-          <LoginForm handleLogin={handleSubmit} />
+          <LoginForm handleLogin={handleSubmit} errorMessages={errorMessages}/>
         </div>
       </>
     )
@@ -146,7 +156,7 @@ const LoginPage = () => {
     return (
       <>
         <div className='flex items-center justify-center h-screen'>
-          <TotpForm handleLogin={handleTotpSubmit} />
+          <TotpForm handleLogin={handleTotpSubmit} errorMessages={errorMessages} />
         </div>
       </>
     )

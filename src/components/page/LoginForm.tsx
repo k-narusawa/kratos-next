@@ -1,15 +1,19 @@
 import Button from '@/src/components/ui/Button'
 import Card from '@/src/components/ui/Card'
 import TextInput from '@/src/components/ui/TextInput'
+import { UiText } from '@ory/client'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { FormEventHandler } from 'react'
 
 interface LoginFormProps {
   handleLogin: FormEventHandler<HTMLFormElement>
+  errorMessages: UiText[]
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ handleLogin: handleSubmit }) => {
+const LoginForm: React.FC<LoginFormProps> = ({ 
+  handleLogin: handleSubmit, errorMessages,
+}) => {
   const router = useRouter()
 
   return (
@@ -47,6 +51,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleLogin: handleSubmit }) => {
             className='w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white'
           />
         </div>
+        {
+          errorMessages && errorMessages.map((errorMessage, index) => (
+            <div key={index} className='text-red-500 text-center'>
+              {errorMessage.text}
+            </div>
+          ))
+        }
         <div className='flex flex-col items-center'>
           <Button type='submit' className='px-4 py-2 mt-5 w-8/12'>
             ログイン
