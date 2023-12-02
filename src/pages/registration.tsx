@@ -5,6 +5,8 @@ import Error from 'next/error'
 import { useRouter } from 'next/router'
 import useFlow from '@/src/hooks/useFlow'
 import RegistrationForm from '@/src/components/page/RegitrationForm'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { GetStaticProps } from 'next'
 
 const RegisterPage = () => {
   const router = useRouter()
@@ -94,5 +96,14 @@ const RegisterPage = () => {
     </div>
   )
 }
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(
+      locale!,
+      ['common']
+    ))
+  }
+});
 
 export default RegisterPage

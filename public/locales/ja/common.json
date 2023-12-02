@@ -7,6 +7,12 @@
     "forgot": "パスワードを忘れた方はこちら",
     "register": "新規登録はこちら"
   },
+  "registration": {
+    "title": "アカウント登録",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "register": "登録する"
+  },
   "logout": "ログアウト",
   "dashboard": {
     "account": "アカウント",
@@ -18,6 +24,11 @@
     "not_set": "未設定",
     "verified": "認証済",
     "unverified": "未認証"
+  },
+  "concent": {
+    "title": "同意確認",
+    "accept": "同意する",
+    "reject": "同意しない"
   },
   "ory": {
     "error_message": {

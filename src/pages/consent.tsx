@@ -3,6 +3,9 @@ import Button from '@/src/components/ui/Button'
 import { useHandleError } from '@/src/hooks/useHandleError'
 import { OAuth2ConsentRequest } from '@ory/client'
 import { AxiosError } from 'axios'
+import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -10,6 +13,7 @@ const ConsentPage = ({}) => {
   const router = useRouter()
   const [consentRequest, setConsentRequest] = useState<OAuth2ConsentRequest>()
   const handleError = useHandleError()
+  const { t } = useTranslation('common')
 
   const { consent_challenge: consentChallenge } = router.query
 
@@ -85,7 +89,7 @@ const ConsentPage = ({}) => {
           type='submit'
           className='w-full px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600'
         >
-          同意する
+          {t('consent.accept')}
         </Button>
       </form>
       <form onSubmit={handleReject}>
@@ -93,11 +97,20 @@ const ConsentPage = ({}) => {
           type='submit'
           className='w-full px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600'
         >
-          同意しない
+          {t('consent.reject')}
         </Button>
       </form>
     </div>
   )
 }
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(
+      locale!,
+      ['common']
+    ))
+  }
+});
 
 export default ConsentPage

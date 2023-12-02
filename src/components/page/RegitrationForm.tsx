@@ -1,6 +1,7 @@
 import Button from '@/src/components/ui/Button'
 import Card from '@/src/components/ui/Card'
 import TextInput from '@/src/components/ui/TextInput'
+import { useTranslation } from 'next-i18next'
 import Image from 'next/image'
 import React, { FormEventHandler } from 'react'
 
@@ -11,6 +12,8 @@ interface RegistrationFormProps {
 const RegistrationForm: React.FC<RegistrationFormProps> = ({
   handleRegistration: handleRegistration,
 }) => {
+  const { t } = useTranslation('common')
+
   return (
     <Card>
       <form onSubmit={handleRegistration}>
@@ -24,33 +27,31 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
             mb-10 mt-5
           '
         >
-          会員登録
+          {t('registration.title')}
         </h5>
         <div className='mb-5'>
           <TextInput
-            label='メールアドレス'
+            label={t('registration.email')}
             type='email'
             id='traits.email'
             name='traits.email'
             required
-            placeholder='メールアドレス'
             className='w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white'
           />
         </div>
         <div className='mb-2'>
           <TextInput
-            label='パスワード'
+            label={t('registration.password')}
             type='password'
             id='password'
             name='password'
             required
-            placeholder='パスワード'
             className='w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white'
           />
         </div>
         <div className='flex flex-col items-center'>
           <Button type='submit' className='px-4 py-2 mt-5 w-8/12'>
-            登録
+            {t('registration.register')}
           </Button>
         </div>
       </form>
