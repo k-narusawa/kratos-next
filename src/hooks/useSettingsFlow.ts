@@ -1,7 +1,7 @@
-import { ory } from "@/pkg/sdk";
-import { useHandleError } from "@/src/hooks/useHandleError";
-import { SettingsFlow, UiNodeAttributes, UiNodeInputAttributes } from "@ory/client";
-import { useEffect } from "react";
+import { ory } from '@/pkg/sdk'
+import { useHandleError } from '@/src/hooks/useHandleError'
+import { SettingsFlow, UiNodeAttributes, UiNodeInputAttributes } from '@ory/client'
+import { useEffect } from 'react'
 
 type Flow = SettingsFlow
 
@@ -9,7 +9,7 @@ const useSettingsFlow = () => {
   const getUser = (flow: Flow): User => {
     return {
       email: flow.identity!.traits.email,
-      enabledMfa: mfaEnabled(flow)
+      enabledMfa: mfaEnabled(flow),
     }
   }
 

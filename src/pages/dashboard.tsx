@@ -5,7 +5,7 @@ import Spinner from '@/src/components/ui/Spinner'
 import AccountDetail from '@/src/components/page/AccountDetail'
 import { ory } from '@/pkg/sdk'
 import { useEffect, useState } from 'react'
-import { RegistrationFlow, SettingsFlow } from '@ory/client'
+import { SettingsFlow } from '@ory/client'
 import { AxiosError } from 'axios'
 import { useHandleError } from '@/src/hooks/useHandleError'
 import { GetStaticProps } from 'next'
@@ -53,6 +53,7 @@ const DashboardPage = () => {
           totp_unlink: true,
         },
       })
+      .catch((err: AxiosError) => handleError(err))
     await router.reload()
   }
 

@@ -1,4 +1,4 @@
 interface User {
-  email: string;
-  enabledMfa: boolean;
+  email: string
+  enabledMfa: boolean
 }

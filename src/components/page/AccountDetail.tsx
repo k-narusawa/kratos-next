@@ -82,13 +82,13 @@ const AccountDetail: React.FC<AccountDetailProps> = ({
             <p className='ml-4 mr-4'>{t('dashboard.mfa')}</p>
             {mfaEnabled ? (
               <div className='flex flex-row justify-between'>
-              <a
-                onClick={disabledMFA}
-                className='cursor-pointer text-blue-600 dark:text-blue-500 no-underline hover:underline'
-              >
-                {t('dashboard.deactivate')}
-              </a>
-            </div>
+                <a
+                  onClick={disabledMFA}
+                  className='cursor-pointer text-blue-600 dark:text-blue-500 no-underline hover:underline'
+                >
+                  {t('dashboard.deactivate')}
+                </a>
+              </div>
             ) : (
               <Link
                 href='/settings/totp'
