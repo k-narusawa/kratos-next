@@ -8,6 +8,8 @@ import { useHandleError } from '@/src/hooks/useHandleError'
 import useFlow from '@/src/hooks/useFlow'
 import Spinner from '@/src/components/ui/Spinner'
 import TotpForm from '@/src/components/page/TotpForm'
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const LoginPage = () => {
   const router = useRouter()
@@ -162,5 +164,14 @@ const LoginPage = () => {
     )
   }
 }
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(
+      locale!,
+      ['common']
+    ))
+  }
+});
 
 export default LoginPage

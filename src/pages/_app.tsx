@@ -3,8 +3,9 @@ import Spinner from '@/src/components/ui/Spinner'
 import useSession from '@/src/hooks/useSession'
 import '@/src/styles/globals.css'
 import type { AppProps } from 'next/app'
+import { appWithTranslation } from 'next-i18next';
 
-export default function App({ Component, pageProps }: AppProps) {
+const App = ({ Component, pageProps }: AppProps) => {
   const { session, isLoading } = useSession()
 
   if (isLoading) {
@@ -28,3 +29,6 @@ export default function App({ Component, pageProps }: AppProps) {
     </>
   )
 }
+
+
+export default appWithTranslation(App)
