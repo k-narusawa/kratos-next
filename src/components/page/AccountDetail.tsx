@@ -3,6 +3,7 @@ import DefaultHR from '@/src/components/ui/DefaultHR'
 import Link from 'next/link'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import BrowserNotSupportedIcon from '@mui/icons-material/BrowserNotSupported'
+import { useTranslation } from 'next-i18next'
 
 interface AccountDetailProps {
   email: string
@@ -15,38 +16,40 @@ const AccountDetail: React.FC<AccountDetailProps> = ({
   emailVerified: emailVerified,
   mfaEnabled: mfaEnabled,
 }) => {
+  const { t } = useTranslation('common')
+  
   return (
     <>
       <Card>
         <h5 className='text-2xl font-semibold text-center text-gray-900 dark:text-white'>
-          アカウント
+          {t('dashboard.account')}
         </h5>
         <div className='flex flex-col w-full'>
           <div className='flex flex-row mt-2 justify-between'>
-            <p className='ml-4 mr-4'>メールアドレス</p>
+            <p className='ml-4 mr-4'>{t('dashboard.email')}</p>
             <Link
               href='/'
               className='text-blue-600 dark:text-blue-500 no-underline hover:underline'
             >
-              変更する
+              {t('dashboard.change')}
             </Link>
           </div>
           {emailVerified ? (
             <div className='flex flex-row mt-1 ml-4 mr-4'>
               <VerifiedIcon className='text-emerald-700' />
-              <p className=' ml-1 text-emerald-700'>認証済</p>
+              <p className=' ml-1 text-emerald-700'>{t('dashboard.verified')}</p>
             </div>
           ) : (
             <div className='flex flex-row justify-between'>
               <div className='flex flex-row mt-1 ml-4 mr-4'>
                 <BrowserNotSupportedIcon className='text-red-500' />
-                <p className=' ml-1 text-red-500'>未認証</p>
+                <p className=' ml-1 text-red-500'>{t('dashboard.unverified')}</p>
               </div>
               <a
                 onClick={() => {console.log('再送する')}}
                 className='cursor-pointer text-blue-600 dark:text-blue-500 no-underline hover:underline'
               >
-                再送する
+                {t('dashboard.resend')}
               </a>
             </div>
           )}
@@ -57,12 +60,12 @@ const AccountDetail: React.FC<AccountDetailProps> = ({
         <DefaultHR />
         <div className='flex flex-col w-full'>
           <div className='flex flex-row mt-2 justify-between'>
-            <p className='ml-4 mr-4'>パスワード</p>
+            <p className='ml-4 mr-4'>{t('dashboard.password')}</p>
             <Link
               href='/settings/password'
               className='text-blue-600 dark:text-blue-500 no-underline hover:underline'
             >
-              変更する
+              {t('dashboard.change')}
             </Link>
           </div>
           <div className='flex flex-row justify-between'>
@@ -72,16 +75,16 @@ const AccountDetail: React.FC<AccountDetailProps> = ({
         <DefaultHR />
         <div className='flex flex-col w-full'>
           <div className='flex flex-row mt-2 justify-between'>
-            <p className='ml-4 mr-4'>多要素認証</p>
+            <p className='ml-4 mr-4'>{t('dashboard.mfa')}</p>
             <Link
               href='/settings/totp'
               className='text-blue-600 dark:text-blue-500 no-underline hover:underline'
             >
-              変更する
+              {t('dashboard.change')}
             </Link>
           </div>
           <div className='flex flex-row justify-between'>
-            <p className='mt-2 text-lg ml-4'>未設定</p>
+            <p className='mt-2 text-lg ml-4'>{t('dashboard.not_set')}</p>
           </div>
         </div>
       </Card>

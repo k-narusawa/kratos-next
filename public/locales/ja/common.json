@@ -7,6 +7,18 @@
     "forgot": "パスワードを忘れた方はこちら",
     "register": "新規登録はこちら"
   },
+  "logout": "ログアウト",
+  "dashboard": {
+    "account": "アカウント",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "mfa": "多要素認証",
+    "change": "変更する",
+    "resend": "再送する",
+    "not_set": "未設定",
+    "verified": "認証済",
+    "unverified": "未認証"
+  },
   "ory": {
     "error_message": {
       "4000006": "メールアドレスまたはパスワードが間違っています"

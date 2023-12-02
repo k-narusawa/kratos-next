@@ -7,6 +7,18 @@
     "forgot": "Forgot Password?",
     "register": "Register"
   },
+  "logout": "Logout",
+  "dashboard": {
+    "account": "account",
+    "email": "email",
+    "password": "password",
+    "mfa": "MFA",
+    "change": "change",
+    "resend": "resend",
+    "not_set": "not set",
+    "verified": "verified",
+    "unverified": "unverified"
+  },
   "ory": {
     "error_message": {
       "4000006": "Invalid email or password"

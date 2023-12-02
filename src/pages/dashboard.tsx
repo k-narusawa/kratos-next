@@ -9,12 +9,16 @@ import { RegistrationFlow } from '@ory/client'
 import { AxiosError } from 'axios'
 import { useHandleError } from '@/src/hooks/useHandleError'
 import useFlow from '@/src/hooks/useFlow'
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'next-i18next'
 
 const DashboardPage = () => {
   const { session, isLoading, error } = useSession()
   const [flow, setFlow] = useState<RegistrationFlow>()
   const handleError = useHandleError()
   const { getCsrfToken } = useFlow()
+  const { t } = useTranslation('common')
 
   const onLogout = LogoutLink()
 
@@ -60,7 +64,7 @@ const DashboardPage = () => {
         />
         <div className='mt-4'>
           <Button onClick={onLogout} variant='secondary'>
-            ログアウト
+            {t('logout')}
           </Button>
         </div>
       </div>
@@ -69,5 +73,14 @@ const DashboardPage = () => {
 
   return null // FIXME: ここどうするか考えなきゃいけない
 }
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => ({
+  props: {
+    ...(await serverSideTranslations(
+      locale!,
+      ['common']
+    ))
+  }
+});
 
 export default DashboardPage
