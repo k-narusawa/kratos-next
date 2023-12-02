@@ -33,6 +33,7 @@ const DashboardPage = () => {
         setUser(getUser(data))
       })
       .catch((err: AxiosError) => handleError(err))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const resendVerificationEmail = () => {
@@ -90,7 +91,7 @@ const DashboardPage = () => {
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations('en', ['common'])),
+    ...(await serverSideTranslations(locale!, ['common'])),
   },
 })
 
