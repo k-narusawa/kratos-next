@@ -56,7 +56,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
         {
           errorMessages && errorMessages.map((errorMessage, index) => (
             <div key={index} className='text-red-500 text-center'>
-              {errorMessage.text}
+              {/* FIXME: ここフォールバックできるようにしたい */}
+              {t(`ory.error_message.${errorMessage.id}`)} 
             </div>
           ))
         }

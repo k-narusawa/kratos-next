@@ -1,10 +1,15 @@
 {
   "login": {
-    "title": "Login",
-    "email": "email",
-    "password": "password",
-    "login": "Login",
-    "forgot": "Forgot Password?",
-    "register": "Register"
+    "title": "ログイン",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "login": "ログイン",
+    "forgot": "パスワードを忘れた方はこちら",
+    "register": "新規登録はこちら"
+  },
+  "ory": {
+    "error_message": {
+      "4000006": "メールアドレスまたはパスワードが間違っています"
+    }
   }
 }
