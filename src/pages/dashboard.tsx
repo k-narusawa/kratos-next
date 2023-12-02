@@ -90,7 +90,7 @@ const DashboardPage = () => {
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(locale!, ['common'])),
+    ...(await serverSideTranslations('en', ['common'])),
   },
 })
 
