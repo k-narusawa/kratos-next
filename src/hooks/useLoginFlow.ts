@@ -9,7 +9,7 @@ import {
 
 type Flow = LoginFlow | RegistrationFlow | VerificationFlow | RecoveryFlow
 
-const useFlow = () => {
+const useLoginFlow = () => {
   const getCsrfToken = (flow: Flow) => {
     return flow.ui.nodes
       .map(({ attributes }) => attributes)
@@ -35,4 +35,4 @@ const useFlow = () => {
   return { getCsrfToken, getLoginMethod, getMessages }
 }
 
-export default useFlow
+export default useLoginFlow

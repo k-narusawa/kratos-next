@@ -21,6 +21,7 @@
     "mfa": "MFA",
     "change": "change",
     "resend": "resend",
+    "set": "set",
     "not_set": "not set",
     "verified": "verified",
     "unverified": "unverified"

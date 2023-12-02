@@ -2,7 +2,7 @@ import { ory } from '../../../pkg/sdk'
 import { FormEventHandler, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { SettingsFlow } from '@ory/client'
-import useFlow from '@/src/hooks/useFlow'
+import useLoginFlow from '@/src/hooks/useLoginFlow'
 import useSession from '@/src/hooks/useSession'
 import Card from '@/src/components/ui/Card'
 import Button from '@/src/components/ui/Button'
@@ -18,7 +18,7 @@ const TotpPage = () => {
   const router = useRouter()
   const { session } = useSession()
   const [flow, setFlow] = useState<SettingsFlow>()
-  const { getCsrfToken } = useFlow()
+  const { getCsrfToken } = useLoginFlow()
 
   const [qr_details, setQrDetails] = useState<qr_details | undefined>(undefined)
 

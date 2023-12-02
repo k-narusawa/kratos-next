@@ -3,7 +3,7 @@ import { FormEventHandler, useEffect, useState } from 'react'
 import { ory } from '../../pkg/sdk'
 import Error from 'next/error'
 import { useRouter } from 'next/router'
-import useFlow from '@/src/hooks/useFlow'
+import useLoginFlow from '@/src/hooks/useLoginFlow'
 import RegistrationForm from '@/src/components/page/RegitrationForm'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetStaticProps } from 'next'
@@ -12,7 +12,7 @@ const RegisterPage = () => {
   const router = useRouter()
   const { flow: flowId, return_to: returnTo } = router.query
   const [flow, setFlow] = useState<RegistrationFlow>()
-  const { getCsrfToken } = useFlow()
+  const { getCsrfToken } = useLoginFlow()
 
   useEffect(() => {
     if (!router.isReady || flow) {

@@ -4,43 +4,56 @@ import useSession from '@/src/hooks/useSession'
 import Spinner from '@/src/components/ui/Spinner'
 import AccountDetail from '@/src/components/page/AccountDetail'
 import { ory } from '@/pkg/sdk'
-import { useState } from 'react'
-import { RegistrationFlow } from '@ory/client'
+import { useEffect, useState } from 'react'
+import { RegistrationFlow, SettingsFlow } from '@ory/client'
 import { AxiosError } from 'axios'
 import { useHandleError } from '@/src/hooks/useHandleError'
-import useFlow from '@/src/hooks/useFlow'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import useSettingsFlow from '@/src/hooks/useSettingsFlow'
+import { useRouter } from 'next/router'
 
 const DashboardPage = () => {
+  const [flow, setFlow] = useState<SettingsFlow>()
   const { session, isLoading, error } = useSession()
-  const [flow, setFlow] = useState<RegistrationFlow>()
+  const { getUser, getCsrfToken } = useSettingsFlow()
+  const [user, setUser] = useState<User>()
   const handleError = useHandleError()
-  const { getCsrfToken } = useFlow()
+  const router = useRouter()
   const { t } = useTranslation('common')
 
   const onLogout = LogoutLink()
 
-  const resendVerificationEmail = () => {
+  useEffect(() => {
     ory
-      .createBrowserRegistrationFlow()
+      .createBrowserSettingsFlow()
       .then(({ data }) => {
         setFlow(data)
+        setUser(getUser(data))
       })
       .catch((err: AxiosError) => handleError(err))
+  }, [])
 
-    ory.updateRegistrationFlow({
-      flow: flow!.id,
-      updateRegistrationFlowBody: {
-        method: 'code',
-        csrf_token: getCsrfToken(flow!),
-        resend: 'true',
-        traits: {
-          email: session!.identity!.traits.email,
+  const resendVerificationEmail = () => {
+    console.log()
+  }
+
+  const disabledMFA = async () => {
+    if (!flow) return
+
+    const csrf_token = getCsrfToken(flow)
+
+    await ory
+      .updateSettingsFlow({
+        flow: flow.id,
+        updateSettingsFlowBody: {
+          csrf_token: csrf_token,
+          method: 'totp',
+          totp_unlink: true,
         },
-      },
-    })
+      })
+    await router.reload()
   }
 
   if (isLoading) return <Spinner />
@@ -53,13 +66,14 @@ const DashboardPage = () => {
       </div>
     )
 
-  if (session) {
+  if (session && user) {
     return (
       <div className='flex flex-col items-center md:justify-center min-h-screen py-2'>
         <AccountDetail
-          email={session.identity.traits.email}
+          email={user.email}
           emailVerified={false}
-          mfaEnabled={false}
+          mfaEnabled={user.enabledMfa}
+          disabledMFA={disabledMFA}
         />
         <div className='mt-4'>
           <Button onClick={onLogout} variant='secondary'>

@@ -9,12 +9,14 @@ interface AccountDetailProps {
   email: string
   emailVerified: boolean
   mfaEnabled: boolean
+  disabledMFA: () => void
 }
 
 const AccountDetail: React.FC<AccountDetailProps> = ({
   email: email,
   emailVerified: emailVerified,
   mfaEnabled: mfaEnabled,
+  disabledMFA: disabledMFA,
 }) => {
   const { t } = useTranslation('common')
 
@@ -78,15 +80,30 @@ const AccountDetail: React.FC<AccountDetailProps> = ({
         <div className='flex flex-col w-full'>
           <div className='flex flex-row mt-2 justify-between'>
             <p className='ml-4 mr-4'>{t('dashboard.mfa')}</p>
-            <Link
-              href='/settings/totp'
-              className='text-blue-600 dark:text-blue-500 no-underline hover:underline'
-            >
-              {t('dashboard.change')}
-            </Link>
+            {mfaEnabled ? (
+              <div className='flex flex-row justify-between'>
+              <a
+                onClick={disabledMFA}
+                className='cursor-pointer text-blue-600 dark:text-blue-500 no-underline hover:underline'
+              >
+                {t('dashboard.deactivate')}
+              </a>
+            </div>
+            ) : (
+              <Link
+                href='/settings/totp'
+                className='text-blue-600 dark:text-blue-500 no-underline hover:underline'
+              >
+                {t('dashboard.activate')}
+              </Link>
+            )}
           </div>
           <div className='flex flex-row justify-between'>
-            <p className='mt-2 text-lg ml-4'>{t('dashboard.not_set')}</p>
+            {mfaEnabled ? (
+              <p className='mt-2 text-lg ml-4'>{t('dashboard.set')}</p>
+            ) : (
+              <p className='mt-2 text-lg ml-4'>{t('dashboard.not_set')}</p>
+            )}
           </div>
         </div>
       </Card>

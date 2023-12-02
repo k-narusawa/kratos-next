@@ -3,7 +3,7 @@ import { FormEventHandler, useEffect, useState } from 'react'
 import { ory } from '../../../pkg/sdk'
 import Error from 'next/error'
 import { useRouter } from 'next/router'
-import useFlow from '@/src/hooks/useFlow'
+import useLoginFlow from '@/src/hooks/useLoginFlow'
 import { AxiosError } from 'axios'
 import { useHandleError } from '@/src/hooks/useHandleError'
 import PasswordSettingForm from '@/src/components/page/PasswordSettingForm'
@@ -13,7 +13,7 @@ const PasswordSettingPage = () => {
   const router = useRouter()
   const { flow: flowId, return_to: returnTo } = router.query
   const [flow, setFlow] = useState<SettingsFlow>()
-  const { getCsrfToken } = useFlow()
+  const { getCsrfToken } = useLoginFlow()
   const handleError = useHandleError()
   const { session } = useSession()
 

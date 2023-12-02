@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { AxiosError } from 'axios'
 import LoginForm from '@/src/components/page/LoginForm'
 import { useHandleError } from '@/src/hooks/useHandleError'
-import useFlow from '@/src/hooks/useFlow'
+import useLoginFlow from '@/src/hooks/useLoginFlow'
 import Spinner from '@/src/components/ui/Spinner'
 import TotpForm from '@/src/components/page/TotpForm'
 import { GetStaticProps } from 'next'
@@ -24,7 +24,7 @@ const LoginPage = () => {
   const [flow, setFlow] = useState<LoginFlow>()
   const [errorMessages, setErrorMessages] = useState<UiText[]>([])
   const handleError = useHandleError()
-  const { getCsrfToken, getLoginMethod, getMessages } = useFlow()
+  const { getCsrfToken, getLoginMethod, getMessages } = useLoginFlow()
 
   useEffect(() => {
     if (!router.isReady || flow) {

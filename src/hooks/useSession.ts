@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ory } from '../../pkg/sdk'
-import { Session } from '@ory/client'
+import { Session, SettingsFlow } from '@ory/client'
 import { AxiosError } from 'axios'
 import { HttpError } from '@/src/types/error'
 import { useHandleError } from '@/src/hooks/useHandleError'

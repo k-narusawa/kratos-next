@@ -20,7 +20,10 @@
     "password": "パスワード",
     "mfa": "多要素認証",
     "change": "変更する",
+    "activate": "有効化する",
+    "deactivate": "無効化する",
     "resend": "再送する",
+    "set": "設定済",
     "not_set": "未設定",
     "verified": "認証済",
     "unverified": "未認証"
