@@ -12,11 +12,12 @@ interface LoginFormProps {
   errorMessages: UiText[]
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ 
-  handleLogin: handleSubmit, errorMessages,
+const LoginForm: React.FC<LoginFormProps> = ({
+  handleLogin: handleSubmit,
+  errorMessages,
 }) => {
   const router = useRouter()
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('common')
 
   return (
     <Card>
@@ -53,14 +54,13 @@ const LoginForm: React.FC<LoginFormProps> = ({
             className='w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white'
           />
         </div>
-        {
-          errorMessages && errorMessages.map((errorMessage, index) => (
+        {errorMessages &&
+          errorMessages.map((errorMessage, index) => (
             <div key={index} className='text-red-500 text-center'>
               {/* FIXME: ここフォールバックできるようにしたい */}
-              {t(`ory.error_message.${errorMessage.id}`)} 
+              {t(`ory.error_message.${errorMessage.id}`)}
             </div>
-          ))
-        }
+          ))}
         <div className='flex flex-col items-center'>
           <Button type='submit' className='px-4 py-2 mt-5 w-8/12'>
             {t('login.login')}

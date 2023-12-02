@@ -17,7 +17,7 @@ const AccountDetail: React.FC<AccountDetailProps> = ({
   mfaEnabled: mfaEnabled,
 }) => {
   const { t } = useTranslation('common')
-  
+
   return (
     <>
       <Card>
@@ -46,7 +46,9 @@ const AccountDetail: React.FC<AccountDetailProps> = ({
                 <p className=' ml-1 text-red-500'>{t('dashboard.unverified')}</p>
               </div>
               <a
-                onClick={() => {console.log('再送する')}}
+                onClick={() => {
+                  console.log('再送する')
+                }}
                 className='cursor-pointer text-blue-600 dark:text-blue-500 no-underline hover:underline'
               >
                 {t('dashboard.resend')}

@@ -11,8 +11,7 @@
     "title": "Register",
     "email": "email",
     "password": "password",
-    "register": "Register",
-    "login": "Login"
+    "register": "Register"
   },
   "logout": "Logout",
   "dashboard": {

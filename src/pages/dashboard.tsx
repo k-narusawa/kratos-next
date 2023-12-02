@@ -9,8 +9,8 @@ import { RegistrationFlow } from '@ory/client'
 import { AxiosError } from 'axios'
 import { useHandleError } from '@/src/hooks/useHandleError'
 import useFlow from '@/src/hooks/useFlow'
-import { GetStaticProps } from "next";
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 
 const DashboardPage = () => {
@@ -30,18 +30,17 @@ const DashboardPage = () => {
       })
       .catch((err: AxiosError) => handleError(err))
 
-    ory
-      .updateRegistrationFlow({
-        flow: flow!.id,
-        updateRegistrationFlowBody: {
-          method: 'code',
-          csrf_token: getCsrfToken(flow!),
-          resend: "true",
-          traits: {
-            email: session!.identity!.traits.email,
-          },
+    ory.updateRegistrationFlow({
+      flow: flow!.id,
+      updateRegistrationFlowBody: {
+        method: 'code',
+        csrf_token: getCsrfToken(flow!),
+        resend: 'true',
+        traits: {
+          email: session!.identity!.traits.email,
         },
-      })
+      },
+    })
   }
 
   if (isLoading) return <Spinner />
@@ -76,11 +75,8 @@ const DashboardPage = () => {
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(
-      locale!,
-      ['common']
-    ))
-  }
-});
+    ...(await serverSideTranslations(locale!, ['common'])),
+  },
+})
 
 export default DashboardPage

@@ -8,8 +8,8 @@ import { useHandleError } from '@/src/hooks/useHandleError'
 import useFlow from '@/src/hooks/useFlow'
 import Spinner from '@/src/components/ui/Spinner'
 import TotpForm from '@/src/components/page/TotpForm'
-import { GetStaticProps } from "next";
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 const LoginPage = () => {
   const router = useRouter()
@@ -95,7 +95,7 @@ const LoginPage = () => {
       })
       .catch((err: AxiosError) => {
         console.log(err)
-        try{
+        try {
           const messages = getMessages(err.response!.data as LoginFlow)
           setErrorMessages(messages!)
         } catch (e) {
@@ -144,17 +144,17 @@ const LoginPage = () => {
     return <Spinner />
   }
 
-  if(getLoginMethod(flow) === 'password') {
+  if (getLoginMethod(flow) === 'password') {
     return (
       <>
         <div className='flex items-center justify-center h-screen'>
-          <LoginForm handleLogin={handleSubmit} errorMessages={errorMessages}/>
+          <LoginForm handleLogin={handleSubmit} errorMessages={errorMessages} />
         </div>
       </>
     )
   }
 
-  if(getLoginMethod(flow) === 'totp') {
+  if (getLoginMethod(flow) === 'totp') {
     return (
       <>
         <div className='flex items-center justify-center h-screen'>
@@ -167,11 +167,8 @@ const LoginPage = () => {
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(
-      locale!,
-      ['common']
-    ))
-  }
-});
+    ...(await serverSideTranslations(locale!, ['common'])),
+  },
+})
 
 export default LoginPage

@@ -86,19 +86,19 @@ const TotpPage = () => {
                 alt='QR'
                 className='mx-auto mb-10'
               />
-                <TextInput
-                  id='totp_code'
-                  type='text'
-                  name='totp_code'
-                  label='認証コード'
-                  placeholder='認証コード'
-                  className='w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white'
-                />
-                <div className='flex flex-col items-center'>
-                  <Button type='submit' className='mb-10 mt-5 justify-center'>
-                    設定
-                  </Button>
-                </div>
+              <TextInput
+                id='totp_code'
+                type='text'
+                name='totp_code'
+                label='認証コード'
+                placeholder='認証コード'
+                className='w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-gray-700 dark:text-white'
+              />
+              <div className='flex flex-col items-center'>
+                <Button type='submit' className='mb-10 mt-5 justify-center'>
+                  設定
+                </Button>
+              </div>
             </div>
           </form>
         </Card>
