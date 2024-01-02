@@ -34,6 +34,15 @@ const useSession = () => {
       })
   }, [handleError])
 
+  const getUser = (): User => {
+    return {
+      email: session?.identity?.traits.email,
+      emailVerified:
+        session?.identity?.verifiable_addresses?.some(({ verified }) => verified) ??
+        false,
+    }
+  }
+
   return { session, isLoading, error }
 }
 

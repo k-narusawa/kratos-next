@@ -94,12 +94,17 @@ const LoginPage = () => {
         await router.push(flow.return_to || '/dashboard')
       })
       .catch((err: AxiosError) => {
-        console.log(err)
+        const redirect_to = err.response?.data?.redirect_browser_to.toString()
+          ? err.response?.data?.redirect_browser_to?.toString()
+          : undefined
+        if (redirect_to) {
+          window.location.href = redirect_to
+        }
         try {
           const messages = getMessages(err.response!.data as LoginFlow)
           setErrorMessages(messages!)
         } catch (e) {
-          throw e
+          console.log(e)
         }
       })
       .catch((err: AxiosError) => handleError(err))

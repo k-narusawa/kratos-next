@@ -1,19 +1,22 @@
-import { ory } from '@/pkg/sdk'
-import { useHandleError } from '@/src/hooks/useHandleError'
-import { SettingsFlow, UiNodeAttributes, UiNodeInputAttributes } from '@ory/client'
-import { useEffect } from 'react'
+import {
+  SettingsFlow,
+  UiNodeAttributes,
+  UiNodeInputAttributes,
+  VerificationFlow,
+} from '@ory/client'
 
 type Flow = SettingsFlow
 
 const useSettingsFlow = () => {
   const getUser = (flow: Flow): User => {
     return {
-      email: flow.identity!.traits.email,
-      enabledMfa: mfaEnabled(flow),
+      email: flow.identity.traits.email,
+      emailVerified:
+        flow.identity.verifiable_addresses?.some(({ verified }) => verified) ?? false,
     }
   }
 
-  const mfaEnabled = (flow: Flow) => {
+  const enabledMfa = (flow: Flow) => {
     return !!flow.ui.nodes
       .map(({ attributes }) => attributes)
       .filter((attrs): attrs is UiNodeInputAttributes => isUiNodeInputAttributes(attrs))
@@ -31,7 +34,7 @@ const useSettingsFlow = () => {
     return (pet as UiNodeInputAttributes).name !== undefined
   }
 
-  return { getUser, getCsrfToken }
+  return { getUser, enabledMfa, getCsrfToken }
 }
 
 export default useSettingsFlow

@@ -47,14 +47,12 @@ const AccountDetail: React.FC<AccountDetailProps> = ({
                 <BrowserNotSupportedIcon className='text-red-500' />
                 <p className=' ml-1 text-red-500'>{t('dashboard.unverified')}</p>
               </div>
-              <a
-                onClick={() => {
-                  console.log('再送する')
-                }}
-                className='cursor-pointer text-blue-600 dark:text-blue-500 no-underline hover:underline'
+              <Link
+                href='/verification'
+                className='text-blue-600 dark:text-blue-500 no-underline hover:underline'
               >
                 {t('dashboard.resend')}
-              </a>
+              </Link>
             </div>
           )}
           <div className='flex flex-row justify-between'>
