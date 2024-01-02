@@ -28,7 +28,7 @@
     "verified": "verified",
     "unverified": "unverified"
   },
-  "concent": {
+  "consent": {
     "title": "Concent",
     "accept": "accept",
     "reject": "reject"
