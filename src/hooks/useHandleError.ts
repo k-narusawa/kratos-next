@@ -66,7 +66,10 @@ export const useHandleError = () => {
         // this could be when the user needs to perform a 2FA challenge
         // or passwordless login
         case 422:
-          window.location.href = `${error.response.data.redirect_browser_to}`
+          const redirect_to =
+            (error.response.data as { redirect_browser_to?: string })
+              ?.redirect_browser_to || ''
+          window.location.href = redirect_to
           return Promise.resolve()
         // we have no session or the session is invalid
         // we should redirect the user to the login page
@@ -85,7 +88,6 @@ export const useHandleError = () => {
     },
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // FIXME: ここにrouterを入れると無限ループになるので、とりあえず空にしておく
     [],
   )
 }

@@ -53,7 +53,8 @@ const LoginPage = () => {
         })
         .catch((err: AxiosError) => handleError(err))
     }
-  }, [flowId, router, router.isReady, returnTo, flow, refresh, aal, loginChallenge])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flowId, router, router.isReady, returnTo, flow, refresh, aal])
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault()
@@ -89,13 +90,8 @@ const LoginPage = () => {
 
         await router.push(flow.return_to || '/dashboard')
       })
+      .catch((err: AxiosError) => handleError(err))
       .catch((err: AxiosError) => {
-        const redirect_to = err.response?.data?.redirect_browser_to.toString()
-          ? err.response?.data?.redirect_browser_to?.toString()
-          : undefined
-        if (redirect_to) {
-          window.location.href = redirect_to
-        }
         try {
           const messages = getMessages(err.response!.data as LoginFlow)
           setErrorMessages(messages!)
@@ -142,7 +138,12 @@ const LoginPage = () => {
   }
 
   if (!flow) {
-    return <Spinner />
+    return (
+      <div className='flex items-center justify-center h-screen'>
+        <Spinner />
+        <h2 className='ml-4'>Flow not found</h2>
+      </div>
+    )
   }
 
   if (getLoginMethod(flow) === 'password') {
