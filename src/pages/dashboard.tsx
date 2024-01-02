@@ -17,7 +17,7 @@ import { useRouter } from 'next/router'
 const DashboardPage = () => {
   const [flow, setFlow] = useState<SettingsFlow>()
   const { session, isLoading, error } = useSession()
-  const { getUser, getCsrfToken , enabledMfa} = useSettingsFlow()
+  const { getUser, getCsrfToken, enabledMfa } = useSettingsFlow()
   const [user, setUser] = useState<User>()
   const [mfaEnabled, setMfaEnabled] = useState<boolean>(false)
   const handleError = useHandleError()
@@ -72,8 +72,8 @@ const DashboardPage = () => {
         <AccountDetail
           email={user.email}
           emailVerified={user.emailVerified}
-          mfaEnabled={ mfaEnabled }
-          disabledMFA={ disabledMFA }
+          mfaEnabled={mfaEnabled}
+          disabledMFA={disabledMFA}
         />
         <div className='mt-4'>
           <Button onClick={onLogout} variant='secondary'>

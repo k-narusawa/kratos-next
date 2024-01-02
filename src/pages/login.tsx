@@ -39,9 +39,7 @@ const LoginPage = () => {
         .then(({ data }) => {
           setFlow(data)
         })
-        .catch(({ err }) => {
-          console.error(err)
-        })
+        .catch((err: AxiosError) => handleError(err))
     } else {
       ory
         .createBrowserLoginFlow({
@@ -53,9 +51,7 @@ const LoginPage = () => {
         .then(({ data }) => {
           setFlow(data)
         })
-        .catch(({ data }) => {
-          console.error(data)
-        })
+        .catch((err: AxiosError) => handleError(err))
     }
   }, [flowId, router, router.isReady, returnTo, flow, refresh, aal, loginChallenge])
 
