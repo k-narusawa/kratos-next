@@ -28,7 +28,7 @@
     "verified": "認証済",
     "unverified": "未認証"
   },
-  "concent": {
+  "consent": {
     "title": "同意確認",
     "accept": "同意する",
     "reject": "同意しない"
