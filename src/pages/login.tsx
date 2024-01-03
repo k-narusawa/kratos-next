@@ -90,16 +90,16 @@ const LoginPage = () => {
 
         await router.push(flow.return_to || '/dashboard')
       })
-      .catch((err: AxiosError) => handleError(err))
       .catch((err: AxiosError) => {
-        try {
-          const messages = getMessages(err.response!.data as LoginFlow)
-          setErrorMessages(messages!)
-        } catch (e) {
-          console.log(e)
+        if (err.response?.status === 400) { // パスワード間違えた場合の事前処理
+          const messages = getMessages(err.response.data as LoginFlow)
+          if(messages) {
+            setErrorMessages(messages)
+            return
+          }
         }
+        handleError(err)
       })
-      .catch((err: AxiosError) => handleError(err))
   }
 
   const handleTotpSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
@@ -131,7 +131,6 @@ const LoginPage = () => {
           window.location.href = flow.return_to
           return
         }
-
         await router.push(flow.return_to || '/dashboard')
       })
       .catch((err: AxiosError) => handleError(err))
