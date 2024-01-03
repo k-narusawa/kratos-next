@@ -44,6 +44,10 @@ const ConsentPage = ({}) => {
       await oauth
         .acceptOAuth2ConsentRequest({
           consentChallenge: consentRequest.challenge.toString(),
+          acceptOAuth2ConsentRequest: {
+            grant_scope: consentRequest.requested_scope,
+            grant_access_token_audience: consentRequest.requested_access_token_audience,
+          }
         })
         .then(({ data }) => {
           if (data.redirect_to) {
