@@ -27,6 +27,8 @@ const DashboardPage = () => {
   const onLogout = LogoutLink()
 
   useEffect(() => {
+    if(!session) return
+
     ory
       .createBrowserSettingsFlow()
       .then(({ data }) => {
@@ -36,7 +38,7 @@ const DashboardPage = () => {
       })
       .catch((err: AxiosError) => handleError(err))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [session])
 
   const disabledMFA = async () => {
     if (!flow) return
@@ -58,7 +60,7 @@ const DashboardPage = () => {
 
   if (isLoading) return <Spinner />
 
-  if (error)
+  if (error || !session || !user)
     return (
       <div>
         <h1>Error</h1>
@@ -83,8 +85,6 @@ const DashboardPage = () => {
       </div>
     )
   }
-
-  return null // FIXME: ここどうするか考えなきゃいけない
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => ({

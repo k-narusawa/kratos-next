@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react'
 import { ory } from '../../pkg/sdk'
-import { Session, SettingsFlow } from '@ory/client'
+import { Session } from '@ory/client'
 import { AxiosError } from 'axios'
 import { HttpError } from '@/src/types/error'
 import { useHandleError } from '@/src/hooks/useHandleError'
+import { useRouter } from 'next/router'
 
 const useSession = () => {
   const [session, setSession] = useState<Session | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<HttpError | null>(null)
   const handleError = useHandleError()
+  const router = useRouter()
 
   useEffect(() => {
     ory
@@ -23,6 +25,7 @@ const useSession = () => {
         switch (err.response?.status) {
           case 401:
             setSession(null)
+            router.push('/login')
             break
           default:
             setSession(null)
@@ -32,6 +35,7 @@ const useSession = () => {
         }
         console.error(err)
       })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleError])
 
   const getUser = (): User => {
