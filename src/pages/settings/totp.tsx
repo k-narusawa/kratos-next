@@ -8,15 +8,21 @@ import Card from '@/src/components/ui/Card'
 import Button from '@/src/components/ui/Button'
 import TextInput from '@/src/components/ui/TextInput'
 import Image from 'next/image'
+import SettingsComplete from '@/src/components/page/SettingsComplete'
+import Error from '@/src/components/page/Error'
 
 interface qr_details {
   enabled: boolean
   totp_qr: string
 }
 
+interface qr_attributes {
+  id: string
+  src: string
+}
+
 const TotpPage = () => {
   const router = useRouter()
-  const { session } = useSession()
   const [flow, setFlow] = useState<SettingsFlow>()
   const { getCsrfToken } = useLoginFlow()
 
@@ -30,11 +36,20 @@ const TotpPage = () => {
         data.ui.nodes
           .filter((node) => node.group === 'totp')
           .forEach((node) => {
-            if (node.attributes.id === 'totp_qr') {
-              setQrDetails({
-                enabled: false,
-                totp_qr: node.attributes.src,
-              })
+            const attributes = node.attributes as qr_attributes | undefined
+            if (!attributes) {
+              return (
+                <div className='flex flex-col items-center justify-center min-h-screen py-2'>
+                  <Error errorMessage='' />
+                </div>
+              )
+            } else {
+              if (attributes.id === 'totp_qr') {
+                setQrDetails({
+                  enabled: false,
+                  totp_qr: attributes.src,
+                })
+              }
             }
           })
       })
@@ -64,10 +79,17 @@ const TotpPage = () => {
       })
       .then(({ data }) => {
         console.log(data)
+        setFlow(data)
       })
       .catch(({ err }) => {
         console.log(err)
       })
+  }
+
+  if (flow?.state === 'success') {
+    ;<div className='flex flex-col items-center justify-center min-h-screen py-2'>
+      <SettingsComplete />
+    </div>
   }
 
   if (qr_details) {

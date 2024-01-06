@@ -36,6 +36,11 @@
     "verified": "認証済",
     "unverified": "未認証"
   },
+  "settings": {
+    "title": "設定",
+    "language": "言語",
+    "complete": "設定が完了しました"
+  },
   "consent": {
     "title": "同意確認",
     "accept": "同意する",
