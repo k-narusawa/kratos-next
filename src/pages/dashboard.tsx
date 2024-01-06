@@ -27,7 +27,7 @@ const DashboardPage = () => {
   const onLogout = LogoutLink()
 
   useEffect(() => {
-    if(!session) return
+    if (!session) return
 
     ory
       .createBrowserSettingsFlow()

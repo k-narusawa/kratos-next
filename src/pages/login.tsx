@@ -91,9 +91,10 @@ const LoginPage = () => {
         await router.push(flow.return_to || '/dashboard')
       })
       .catch((err: AxiosError) => {
-        if (err.response?.status === 400) { // パスワード間違えた場合の事前処理
+        if (err.response?.status === 400) {
+          // パスワード間違えた場合の事前処理
           const messages = getMessages(err.response.data as LoginFlow)
-          if(messages) {
+          if (messages) {
             setErrorMessages(messages)
             return
           }

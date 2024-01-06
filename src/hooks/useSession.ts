@@ -35,7 +35,7 @@ const useSession = () => {
         }
         console.error(err)
       })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleError])
 
   const getUser = (): User => {

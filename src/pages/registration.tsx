@@ -71,15 +71,19 @@ const RegisterPage = () => {
       .then(async ({ data }) => {
         if (data.continue_with) {
           for (const item of data.continue_with) {
+            console.log(item)
             switch (item.action) {
               case 'show_verification_ui':
-                await router.push('/verification?flow=' + item.flow.id)
-                return
+                console.log('show_verification_ui')
+                router.push('/verification?flow=' + item.flow.id)
+                break
+              default:
+                break
             }
           }
         }
         // If continue_with did not contain anything, we can just return to the home page.
-        await router.push(flow?.return_to || '/')
+        router.push(flow?.return_to || '/')
       })
       .catch((err) => {
         console.log(err)

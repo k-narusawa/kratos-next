@@ -13,6 +13,14 @@
     "password": "password",
     "register": "Register"
   },
+  "verification": {
+    "title": "Verify your email address",
+    "email": "email",
+    "code": "verification code",
+    "resend": "resend",
+    "verify": "verify",
+    "complete": "verification complete"
+  },
   "logout": "Logout",
   "dashboard": {
     "account": "account",
@@ -33,9 +41,12 @@
     "accept": "accept",
     "reject": "reject"
   },
+  "error": {
+    "title": "Error"
+  },
   "ory": {
-    "consent":{
-      "scope":{
+    "consent": {
+      "scope": {
         "openid": "プロフィール情報",
         "offline": "オフラインアクセス"
       },
@@ -45,7 +56,8 @@
       }
     },
     "error_message": {
-      "4000006": "Invalid email or password"
+      "4000006": "Invalid email or password",
+      "4000010": "Account not active yet. Did you forget to verify your email address?"
     }
   }
 }

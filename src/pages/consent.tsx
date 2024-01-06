@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react'
 const ConsentPage = ({}) => {
   const router = useRouter()
   const [consentRequest, setConsentRequest] = useState<OAuth2ConsentRequest>()
-  const handleError = useHandleError()  
+  const handleError = useHandleError()
 
   const { consent_challenge: consentChallenge } = router.query
 
@@ -44,7 +44,7 @@ const ConsentPage = ({}) => {
           acceptOAuth2ConsentRequest: {
             grant_scope: consentRequest.requested_scope,
             grant_access_token_audience: consentRequest.requested_access_token_audience,
-          }
+          },
         })
         .then(({ data }) => {
           if (data.redirect_to) {
@@ -66,10 +66,10 @@ const ConsentPage = ({}) => {
 
   return (
     <>
-        <div className='flex items-center justify-center h-screen'>
-          <ConsentForm handleAccept={handleAccept} consentRequest={consentRequest}/>
-        </div>
-      </>
+      <div className='flex items-center justify-center h-screen'>
+        <ConsentForm handleAccept={handleAccept} consentRequest={consentRequest} />
+      </div>
+    </>
   )
 }
 
