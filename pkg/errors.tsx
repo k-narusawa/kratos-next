@@ -10,14 +10,17 @@ export function handleGetFlowError<S>(
   resetFlow: Dispatch<SetStateAction<S | undefined>>,
 ) {
   return async (err: AxiosError) => {
+    const error = err as unknown as ErrorResponse
     console.log('Error while fetching flow: ', err.response?.data)
-    switch (err.response?.data.error?.id) {
+    const data = error.response?.data
+
+    switch (data?.error?.id) {
       case 'session_inactive':
         await router.push('/login?return_to=' + window.location.href)
         return
       case 'session_aal2_required':
-        if (err.response?.data.redirect_browser_to) {
-          const redirectTo = new URL(err.response?.data.redirect_browser_to)
+        if (data.redirect_browser_to) {
+          const redirectTo = new URL(data.redirect_browser_to)
           if (flowType === 'settings') {
             redirectTo.searchParams.set('return_to', window.location.href)
           }
@@ -33,7 +36,7 @@ export function handleGetFlowError<S>(
         return
       case 'session_refresh_required':
         // We need to re-authenticate to perform this action
-        window.location.href = err.response?.data.redirect_browser_to
+        window.location.href = data?.redirect_browser_to || '/'
         return
       case 'self_service_flow_return_to_forbidden':
         // The flow expired, let's request a new one.
@@ -61,7 +64,7 @@ export function handleGetFlowError<S>(
         return
       case 'browser_location_change_required':
         // Ory Kratos asked us to point the user to this URL.
-        window.location.href = err.response.data.redirect_browser_to
+        window.location.href = data.redirect_browser_to || '/'
         return
     }
 
@@ -80,3 +83,14 @@ export function handleGetFlowError<S>(
 
 // A small function to help us deal with errors coming from initializing a flow.
 export const handleFlowError = handleGetFlowError
+
+interface ErrorResponse {
+  response?: {
+    data?: {
+      error?: {
+        id?: string
+      }
+      redirect_browser_to?: string
+    }
+  }
+}
