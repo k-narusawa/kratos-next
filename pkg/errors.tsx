@@ -10,8 +10,12 @@ export function handleGetFlowError<S>(
   resetFlow: Dispatch<SetStateAction<S | undefined>>,
 ) {
   return async (err: AxiosError) => {
-    const error = err as unknown as ErrorResponse
     console.log('Error while fetching flow: ', err.response?.data)
+    
+    const error = err as unknown as ErrorResponse | undefined
+    if (!error) {
+      return Promise.reject(err)
+    }
     const data = error.response?.data
 
     switch (data?.error?.id) {
