@@ -7,8 +7,8 @@ export default function Home() {
         ログイン
       </Link>
       <br />
-      <Link href='/dashboard' passHref>
-        ダッシュボード
+      <Link href='/userinfo' passHref>
+        userinfo
       </Link>
       <br />
       <Link href='/registration' passHref>

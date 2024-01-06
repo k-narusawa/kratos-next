@@ -2,7 +2,7 @@ import { LogoutLink } from '@/src/components/ui/LogoutLink'
 import Button from '@/src/components/ui/Button'
 import useSession from '@/src/hooks/useSession'
 import Spinner from '@/src/components/ui/Spinner'
-import AccountDetail from '@/src/components/page/AccountDetail'
+import AccountDetail from '@/src/components/page/UserInfo'
 import { ory } from '@/pkg/sdk'
 import { useEffect, useState } from 'react'
 import { SettingsFlow } from '@ory/client'
@@ -14,7 +14,7 @@ import { useTranslation } from 'next-i18next'
 import useSettingsFlow from '@/src/hooks/useSettingsFlow'
 import { useRouter } from 'next/router'
 
-const DashboardPage = () => {
+const UserInfo = () => {
   const [flow, setFlow] = useState<SettingsFlow>()
   const { session, isLoading, error } = useSession()
   const { getUser, getCsrfToken, enabledMfa } = useSettingsFlow()
@@ -93,4 +93,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => ({
   },
 })
 
-export default DashboardPage
+export default UserInfo

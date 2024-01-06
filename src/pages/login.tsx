@@ -88,7 +88,7 @@ const LoginPage = () => {
           return
         }
 
-        await router.push(flow.return_to || '/dashboard')
+        await router.push(flow.return_to || '/userinfo')
       })
       .catch((err: AxiosError) => {
         if (err.response?.status === 400) {
@@ -132,7 +132,7 @@ const LoginPage = () => {
           window.location.href = flow.return_to
           return
         }
-        await router.push(flow.return_to || '/dashboard')
+        await router.push(flow.return_to || '/userinfo')
       })
       .catch((err: AxiosError) => handleError(err))
   }

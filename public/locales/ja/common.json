@@ -22,7 +22,7 @@
     "complete": "検証が完了しました"
   },
   "logout": "ログアウト",
-  "dashboard": {
+  "userinfo": {
     "account": "アカウント",
     "email": "メールアドレス",
     "password": "パスワード",

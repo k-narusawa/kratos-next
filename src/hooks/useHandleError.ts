@@ -28,7 +28,7 @@ export const useHandleError = () => {
           })
           return Promise.resolve()
         case 'session_already_available':
-          router.push('/dashboard')
+          router.push('/userinfo')
           return Promise.resolve()
         case 'session_refresh_required':
           router.push({

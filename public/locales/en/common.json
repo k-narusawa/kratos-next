@@ -22,7 +22,7 @@
     "complete": "verification complete"
   },
   "logout": "Logout",
-  "dashboard": {
+  "userinfo": {
     "account": "account",
     "email": "email",
     "password": "password",
