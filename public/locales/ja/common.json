@@ -10,7 +10,8 @@
   },
   "webauthn":{
     "title": "WebAuthnログイン",
-    "email": "メールアドレス"
+    "email": "メールアドレス",
+    "login": "ログイン"
   },
   "registration": {
     "title": "アカウント登録",
@@ -44,7 +45,10 @@
   "settings": {
     "title": "設定",
     "language": "言語",
-    "complete": "設定が完了しました"
+    "complete": "設定が完了しました",
+    "webauthn": {
+      "register": "WebAuthn登録"
+    }
   },
   "consent": {
     "title": "同意確認",

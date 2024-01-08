@@ -97,13 +97,15 @@ const WebAuthnLoginForm: React.FC<WebAuthnLoginFormProps> = ({
           <input type='hidden' name='csrf_token' value={csrfToken} />
           <input type='hidden' name='identifier' value={identifier} />
           <input type='hidden' name='webauthn_login' value={webauthn_login} />
-          <input type='button' name='webauthn_login_trigger' 
-            value={t('webauthn.login')} 
+          <Button 
+            type='button' 
+            className='mt-5' 
             onClick={async () => {
               const run = new Function(loginTrigger)
               await run()
-            }} 
-            />
+            }} >
+            {t('webauthn.login')} 
+          </Button>
         </div>
       </form>
       <Script

@@ -8,6 +8,11 @@
     "forgot": "Forgot Password?",
     "register": "Register"
   },
+  "webauthn":{
+    "title": "WebAuthn Login",
+    "email": "email",
+    "login": "Login"
+  },
   "registration": {
     "title": "Register",
     "email": "email",
@@ -36,6 +41,14 @@
     "not_set": "not set",
     "verified": "verified",
     "unverified": "unverified"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "complete": "Settings updated",
+    "webauthn": {
+      "register": "Register WebAuthn"
+    }
   },
   "consent": {
     "title": "Concent",
