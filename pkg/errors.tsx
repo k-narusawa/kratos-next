@@ -11,7 +11,7 @@ export function handleGetFlowError<S>(
 ) {
   return async (err: AxiosError) => {
     console.log('Error while fetching flow: ', err.response?.data)
-    
+
     const error = err as unknown as ErrorResponse | undefined
     if (!error) {
       return Promise.reject(err)

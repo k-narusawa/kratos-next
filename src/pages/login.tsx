@@ -10,6 +10,7 @@ import Spinner from '@/src/components/ui/Spinner'
 import TotpForm from '@/src/components/page/TotpForm'
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import WebAuthnLoginForm from '@/src/components/page/WebAuthnLoginForm'
 
 const LoginPage = () => {
   const router = useRouter()
@@ -137,6 +138,33 @@ const LoginPage = () => {
       .catch((err: AxiosError) => handleError(err))
   }
 
+  const handleWebAuthnSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
+    console.log(event)
+    event.preventDefault()
+    if (!flow) {
+      return <div>Flow not found</div>
+    }
+
+    const form = new FormData(event.currentTarget)
+    const identifier = form.get('identifier') || ''
+    const csrf_token = getCsrfToken(flow)
+
+    await ory
+      .updateLoginFlow({
+        flow: flow.id,
+        updateLoginFlowBody: {
+          csrf_token: csrf_token,
+          method: 'webauthn',
+          identifier: identifier.toString(), // email
+          // webauthn_login: '', //Login a WebAuthn Security Key  This must contain the ID of the WebAuthN connection.
+        },
+      })
+      .then(async ({ data }) => {
+        console.log(data)
+      })
+      .catch((err: AxiosError) => handleError(err))
+  }
+
   if (!flow) {
     return (
       <div className='flex items-center justify-center h-screen'>
@@ -146,21 +174,33 @@ const LoginPage = () => {
     )
   }
 
-  if (getLoginMethod(flow) === 'password') {
-    return (
-      <>
-        <div className='flex items-center justify-center h-screen'>
-          <LoginForm handleLogin={handleSubmit} errorMessages={errorMessages} />
-        </div>
-      </>
-    )
-  }
+  const method = getLoginMethod(flow)
 
-  if (getLoginMethod(flow) === 'totp') {
+  if (method === 'totp') {
     return (
       <>
         <div className='flex items-center justify-center h-screen'>
           <TotpForm handleLogin={handleTotpSubmit} errorMessages={errorMessages} />
+        </div>
+      </>
+    )
+  } else if (method === 'webauthn') {
+    return (
+      <>
+        <div className='flex items-center justify-center h-screen'>
+          <WebAuthnLoginForm flow={flow} errorMessages={errorMessages} />
+        </div>
+      </>
+    )
+  } else {
+    return (
+      <>
+        <div className='flex items-center justify-center h-screen'>
+          <LoginForm
+            handleLogin={handleSubmit}
+            handleWebAuthnLogin={handleWebAuthnSubmit}
+            errorMessages={errorMessages}
+          />
         </div>
       </>
     )
