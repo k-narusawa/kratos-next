@@ -4,8 +4,13 @@
     "email": "メールアドレス",
     "password": "パスワード",
     "login": "ログイン",
+    "webauthn": "WebAuthnでログイン",
     "forgot": "パスワードを忘れた方はこちら",
     "register": "新規登録はこちら"
+  },
+  "webauthn":{
+    "title": "WebAuthnログイン",
+    "email": "メールアドレス"
   },
   "registration": {
     "title": "アカウント登録",

@@ -4,6 +4,7 @@
     "email": "email",
     "password": "password",
     "login": "Login",
+    "webauthn": "WebAuthn Login",
     "forgot": "Forgot Password?",
     "register": "Register"
   },

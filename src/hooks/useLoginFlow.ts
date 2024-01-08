@@ -4,6 +4,7 @@ import {
   RegistrationFlow,
   UiNodeAttributes,
   UiNodeInputAttributes,
+  UiTextTypeEnum,
   VerificationFlow,
 } from '@ory/client'
 
@@ -22,10 +23,21 @@ const useLoginFlow = () => {
   }
 
   const getLoginMethod = (flow: Flow) => {
-    return flow.ui.nodes
-      .map(({ attributes }) => attributes)
-      .filter((attrs): attrs is UiNodeInputAttributes => isUiNodeInputAttributes(attrs))
-      .find(({ name }) => name === 'method')?.value
+    const messages = flow.ui.messages
+
+    if (messages === undefined) {
+      return 'login'
+    }
+
+    for (const message of messages) {
+      switch (message.id) {
+        case 1010004:
+          return 'totp'
+        case 1010012:
+          return 'webauthn'
+      }
+    }
+    return 'login'
   }
 
   const getMessages = (flow: Flow) => {

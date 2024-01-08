@@ -104,6 +104,36 @@ const UserInfo: React.FC<UserInfoProps> = ({
             )}
           </div>
         </div>
+        <DefaultHR />
+        <div className='flex flex-col w-full'>
+          <div className='flex flex-row mt-2 justify-between'>
+            <p className='ml-4 mr-4'>WebAuthn</p>
+            {mfaEnabled ? (
+              <div className='flex flex-row justify-between'>
+                <a
+                  onClick={disabledMFA}
+                  className='cursor-pointer text-blue-600 dark:text-blue-500 no-underline hover:underline'
+                >
+                  {t('userinfo.deactivate')}
+                </a>
+              </div>
+            ) : (
+              <Link
+                href='/settings/webauthn'
+                className='text-blue-600 dark:text-blue-500 no-underline hover:underline'
+              >
+                {t('userinfo.activate')}
+              </Link>
+            )}
+          </div>
+          <div className='flex flex-row justify-between'>
+            {mfaEnabled ? (
+              <p className='mt-2 text-lg ml-4'>{t('userinfo.set')}</p>
+            ) : (
+              <p className='mt-2 text-lg ml-4'>{t('userinfo.not_set')}</p>
+            )}
+          </div>
+        </div>
       </Card>
     </>
   )
