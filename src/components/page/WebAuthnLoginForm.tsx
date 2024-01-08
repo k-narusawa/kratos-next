@@ -1,12 +1,22 @@
 import Button from '@/src/components/ui/Button'
 import Card from '@/src/components/ui/Card'
-import { LoginFlow, UiNodeInputAttributes, UiNodeScriptAttributes, UiText } from '@ory/client'
+import {
+  LoginFlow,
+  UiNodeInputAttributes,
+  UiNodeScriptAttributes,
+  UiText,
+} from '@ory/client'
 import { useRouter } from 'next/router'
 import Script from 'next/script'
-import React, { FormEventHandler, HTMLAttributeReferrerPolicy, useEffect, useState } from 'react'
+import React, {
+  FormEventHandler,
+  HTMLAttributeReferrerPolicy,
+  useEffect,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 
-interface webauthn_script{
+interface webauthn_script {
   src: string
   async: boolean
   referrerpolicy: HTMLAttributeReferrerPolicy
@@ -18,7 +28,7 @@ interface webauthn_script{
 }
 
 interface WebAuthnLoginFormProps {
-  flow: LoginFlow,
+  flow: LoginFlow
   errorMessages: UiText[]
 }
 
@@ -30,29 +40,31 @@ const WebAuthnLoginForm: React.FC<WebAuthnLoginFormProps> = ({
   const [identifier, setIdentifier] = useState<string | undefined>(undefined)
   const [csrfToken, setCsrfToken] = useState<string | undefined>(undefined)
   const [webauthn_login, setWebAuthnLogin] = useState<string | undefined>(undefined)
-  const [webauthnScript, setWebAuthnScript] = useState<webauthn_script | undefined>(undefined)
+  const [webauthnScript, setWebAuthnScript] = useState<webauthn_script | undefined>(
+    undefined,
+  )
   const [loginTrigger, setLoginTrigger] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     const nodes = flow.ui.nodes
 
-  nodes.forEach((node) => {
-      if(node.attributes.node_type === 'input'){
+    nodes.forEach((node) => {
+      if (node.attributes.node_type === 'input') {
         const attributes = node.attributes as UiNodeInputAttributes
-        if(attributes.name === 'identifier'){
+        if (attributes.name === 'identifier') {
           setIdentifier(attributes.value)
-        }else if(attributes.name === 'csrf_token'){
+        } else if (attributes.name === 'csrf_token') {
           setCsrfToken(attributes.value)
-        }else if(attributes.name === 'webauthn_login_trigger'){
+        } else if (attributes.name === 'webauthn_login_trigger') {
           setLoginTrigger(attributes.onclick)
-        }else if(attributes.name === 'webauthn_login'){
+        } else if (attributes.name === 'webauthn_login') {
           setWebAuthnLogin(attributes.value)
         }
       }
 
-      if(node.attributes.node_type === 'script'){
+      if (node.attributes.node_type === 'script') {
         const attributes = node.attributes as UiNodeScriptAttributes
-        if(attributes.id === 'webauthn_script'){
+        if (attributes.id === 'webauthn_script') {
           setWebAuthnScript({
             src: attributes.src,
             async: attributes.async ?? true,
@@ -61,17 +73,16 @@ const WebAuthnLoginForm: React.FC<WebAuthnLoginFormProps> = ({
             integrity: attributes.integrity,
             type: attributes.type,
             id: attributes.id,
-            nonce: attributes.nonce
+            nonce: attributes.nonce,
           })
         }
       }
     })
   }, [flow])
 
-  if(!webauthnScript || !loginTrigger || !csrfToken || !identifier){
+  if (!webauthnScript || !loginTrigger || !csrfToken || !identifier) {
     return <div>e...</div>
   }
-    
 
   return (
     <Card>
@@ -92,19 +103,20 @@ const WebAuthnLoginForm: React.FC<WebAuthnLoginFormProps> = ({
               {t(`ory.error_message.${errorMessage.id}`)}
             </div>
           ))}
-        
+
         <div className='flex flex-col items-center'>
           <input type='hidden' name='csrf_token' value={csrfToken} />
           <input type='hidden' name='identifier' value={identifier} />
           <input type='hidden' name='webauthn_login' value={webauthn_login} />
-          <Button 
-            type='button' 
-            className='mt-5' 
+          <Button
+            type='button'
+            className='mt-5'
             onClick={async () => {
               const run = new Function(loginTrigger)
               await run()
-            }} >
-            {t('webauthn.login')} 
+            }}
+          >
+            {t('webauthn.login')}
           </Button>
         </div>
       </form>

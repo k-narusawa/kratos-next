@@ -184,7 +184,7 @@ const LoginPage = () => {
         </div>
       </>
     )
-  } else if(method === 'webauthn'){
+  } else if (method === 'webauthn') {
     return (
       <>
         <div className='flex items-center justify-center h-screen'>
@@ -196,7 +196,11 @@ const LoginPage = () => {
     return (
       <>
         <div className='flex items-center justify-center h-screen'>
-          <LoginForm handleLogin={handleSubmit} handleWebAuthnLogin={handleWebAuthnSubmit} errorMessages={errorMessages} />
+          <LoginForm
+            handleLogin={handleSubmit}
+            handleWebAuthnLogin={handleWebAuthnSubmit}
+            errorMessages={errorMessages}
+          />
         </div>
       </>
     )

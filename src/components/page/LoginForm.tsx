@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { FormEventHandler } from 'react'
 import { useTranslation } from 'react-i18next'
-import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import VpnKeyIcon from '@mui/icons-material/VpnKey'
 
 interface LoginFormProps {
   handleLogin: FormEventHandler<HTMLFormElement>
@@ -116,7 +116,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         >
           {t('login.register')}
         </Button>
-        </div>
+      </div>
     </Card>
   )
 }

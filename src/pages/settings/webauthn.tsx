@@ -1,14 +1,25 @@
 import { ory } from '../../../pkg/sdk'
-import { FormEventHandler, HTMLAttributeReferrerPolicy, MouseEventHandler, useEffect, useState } from 'react'
+import {
+  FormEventHandler,
+  HTMLAttributeReferrerPolicy,
+  MouseEventHandler,
+  useEffect,
+  useState,
+} from 'react'
 import { useRouter } from 'next/navigation'
-import { SettingsFlow, UiNodeAttributes, UiNodeInputAttributes, UiNodeScriptAttributes } from '@ory/client'
+import {
+  SettingsFlow,
+  UiNodeAttributes,
+  UiNodeInputAttributes,
+  UiNodeScriptAttributes,
+} from '@ory/client'
 import useLoginFlow from '@/src/hooks/useLoginFlow'
 import SettingsComplete from '@/src/components/page/SettingsComplete'
 import WebAuthnSettingForm from '@/src/components/page/WebAuthnSettingForm'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetStaticProps } from 'next'
 
-interface webauthn_script{
+interface webauthn_script {
   src: string
   async: string
   referrerpolicy: string
@@ -34,12 +45,12 @@ const SettingsWebAuthnPage = () => {
       })
   }, [router])
 
-    if (!flow) {
-      return <div>Flow not found</div>
-    }
+  if (!flow) {
+    return <div>Flow not found</div>
+  }
 
   if (flow?.state === 'success') {
-    <div className='flex flex-col items-center justify-center min-h-screen py-2'>
+    ;<div className='flex flex-col items-center justify-center min-h-screen py-2'>
       <SettingsComplete />
     </div>
   }
@@ -47,7 +58,7 @@ const SettingsWebAuthnPage = () => {
   if (flow) {
     return (
       <div className='flex flex-col items-center justify-center min-h-screen py-2'>
-        <WebAuthnSettingForm flow={flow}/>
+        <WebAuthnSettingForm flow={flow} />
       </div>
     )
   }

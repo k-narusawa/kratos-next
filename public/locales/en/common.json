@@ -8,7 +8,7 @@
     "forgot": "Forgot Password?",
     "register": "Register"
   },
-  "webauthn":{
+  "webauthn": {
     "title": "WebAuthn Login",
     "email": "email",
     "login": "Login"

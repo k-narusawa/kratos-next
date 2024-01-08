@@ -8,7 +8,7 @@
     "forgot": "パスワードを忘れた方はこちら",
     "register": "新規登録はこちら"
   },
-  "webauthn":{
+  "webauthn": {
     "title": "WebAuthnログイン",
     "email": "メールアドレス",
     "login": "ログイン"
